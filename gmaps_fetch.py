@@ -1,6 +1,8 @@
 '''
-Given a set of inputs, e.g. place names
-Gets required data from the google maps API
+Given a set of place names, queries the gmaps api and Appends:
+    - gmaps place id (GPID)
+    - Lat/long data
+    - user review rating
 To be passed to the cleaner for data cleaning
 '''
 
@@ -8,50 +10,55 @@ import pandas as pd
 import requests
 import googlemaps
 import json
-from datetime import datetime
+import os
 
-dfLoc = pd.read_csv('test_data/locations.csv', encoding='UTF-8')
-locs = dfLoc.Name
 # setup gmaps object
 gmaps = googlemaps.Client(key='AIzaSyBrY7HAvOgb8NHhW-mir7CQERHER8saC28')
+mel_loc = (-37.8132, 144.965)  # centre of search radius
+folder = 'test_data'
+infile = 'locations.csv'
+outfile = 'locations_add_data.csv'
 
-""" EXAMPLES - check package details for full methods
-It is just a wrapper around making requests to the http api endpoint
-# Geocoding an address
-geocode_result = gmaps.geocode('1600 Amphitheatre Parkway, Mountain View, CA')
-geocode_result  # gives a lot more data than what we need
-"""
-mel_loc = (-37.8132, 144.9)
-gtest = gmaps.places('chinatown', mel_loc, radius=10000)
+# read in test locations TODO replace with
+dfLoc = pd.read_csv(os.path.join(folder, infile), encoding='UTF-8')
+locs = dfLoc.Name  # col containing place names
 
-gtest.keys()
-len(gtest['results'])
-gtest['results'][0]
-gtest['results'][0].keys()
-gtest['results'][0]['geometry']['location']
-gtest['results'][0]['geometry']['location']['lat']  # how to access lat
-gtest['results'][0]['geometry']['location']['lng']  # and long
+def cacheGmapLocationData(dfLoc):
+    """ Cache results so don't need to keep hitting the gmaps API
+    """
+    place_search_cache = []
+    # for loc in locs[0:3]:  # testing limited search only
+    for loc in locs:
+        print('search:', loc)
+        place = gmaps.places(loc, mel_loc, radius=10000)  # place search api
+        print('found:', place['results'][0]['name'])
+        place_search_cache.append(place)
+    return place_search_cache
 
-gtest['results'][0]['id']  # not sure what this is
-gtest['results'][0]['place_id']  # this is the correct one
-loc_pid = gtest['results'][0]['place_id']  # this is the correct one
-
-locDetail = gmaps.place(loc_pid)
-locDetail.keys()
-locDetail['result']
-locDetail['result'].keys()
-# dict_keys(['address_components', 'adr_address', 'formatted_address', 
-#   'geometry', 'icon', 'id', 'name', 'opening_hours', 'photos', 
-#   'place_id', 'plus_code', 'rating', 'reference', 'reviews', 'scope', 
-#   'types', 'url', 'user_ratings_total', 'utc_offset', 'vicinity', 'website'])
-
-for loc in locs:
-    print(loc)
-
+def extractLocDataFromCache(place_search_cache):
+    """ don't need the gmaps.place() api yet - see test filefor details
+    """
+    gpid_l, lat_l, lng_l, rating_l = [], [], [], []
+    for place in place_search_cache:
+        lng_l.extend([place['results'][0]['geometry']['location']['lat']])  # how to access lat
+        lat_l.extend([place['results'][0]['geometry']['location']['lng']])  # and long
+        gpid_l.extend([place['results'][0]['place_id']])
+        try:
+            rating_l.extend([place['results'][0]['rating']])
+        except KeyError:  # possible some places don't have ratings
+            rating_l.append(None)
+            print('no rating found for {}'.format(place['results'][0]['name']))
+    print(len(gpid_l), len(lat_l), len(lng_l), len(rating_l))
+    return gpid_l, lat_l, lng_l, rating_l
 
 
-
+place_search_cache = cacheGmapLocationData(dfLoc)
+gpid_l, lat_l, lng_l, rating_l = extractLocDataFromCache(place_search_cache)
+# add extensions to df
+dfLoc['gpid'] = gpid_l
+dfLoc['lat'] = lat_l
+dfLoc['lng'] = lng_l
+dfLoc['rating'] = rating_l
 
 # Save as csv
-
-dfLoc.to_csv('test_data/locations_encoded.csv', index=False)
+dfLoc.to_csv(os.path.join(folder, outfile), index=False)
