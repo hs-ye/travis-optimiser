@@ -11,20 +11,22 @@ import requests
 import googlemaps
 import json
 import os
+import pickle
 
 # setup gmaps object
 gmaps = googlemaps.Client(key='AIzaSyBrY7HAvOgb8NHhW-mir7CQERHER8saC28')
 mel_loc = (-37.8132, 144.965)  # centre of search radius
 folder = 'test_data'
 infile = 'locations.csv'
+pickfile = 'gmaps_cache.pickle'
 outfile = 'locations_add_data.csv'
 
 # read in test locations TODO replace with
 dfLoc = pd.read_csv(os.path.join(folder, infile), encoding='UTF-8')
 locs = dfLoc.Name  # col containing place names
 
-def cacheGmapLocationData(dfLoc):
-    """ Cache results so don't need to keep hitting the gmaps API
+def fetchGmapLocationData(dfLoc):
+    """ fetch results once, so don't need to keep hitting the gmaps API
     """
     place_search_cache = []
     # for loc in locs[0:3]:  # testing limited search only
@@ -33,7 +35,34 @@ def cacheGmapLocationData(dfLoc):
         place = gmaps.places(loc, mel_loc, radius=10000)  # place search api
         print('found:', place['results'][0]['name'])
         place_search_cache.append(place)
-    return place_search_cache
+    return place_search_list
+
+
+def getGmapLocationData(dfLoc, pickfile="gmaps_cache.pickle"):
+    """ Try to get data from Pickle file, ignores dfLoc input
+    if not, then fetch and make pickle from gmaps API"""
+    if os.path.isfile(pickfile):
+        try:
+            infile = open(pickfile,'rb')
+            gmap_data = pickle.load(infile)
+        except:
+            print('could not load pickle data')
+        else:
+            infile.close()
+    else:
+        print('no file found - re-download data')
+        try:
+            outfile = open(pickfile,'wb')
+            gmap_data = fetchGmapLocationData(dfLoc)
+            pickle.dump(gmap_data, outfile)
+            print('gmap data downloaded and saved')
+        except:
+            print('error saving gmaps data as pickle')
+        else:
+            outfile.close()
+            raise
+    return gmap_data
+
 
 def extractLocDataFromCache(place_search_cache):
     """ don't need the gmaps.place() api yet - see test filefor details
@@ -52,7 +81,7 @@ def extractLocDataFromCache(place_search_cache):
     return gpid_l, lat_l, lng_l, rating_l
 
 
-place_search_cache = cacheGmapLocationData(dfLoc)
+place_search_cache = getGmapLocationData(dfLoc)
 gpid_l, lat_l, lng_l, rating_l = extractLocDataFromCache(place_search_cache)
 # add extensions to df
 dfLoc['gpid'] = gpid_l
