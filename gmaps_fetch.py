@@ -7,6 +7,7 @@ To be passed to the cleaner for data cleaning
 '''
 
 import pandas as pd
+import numpy as np
 import requests
 import googlemaps
 import json
@@ -43,9 +44,11 @@ def getGmapLocationData(dfLoc, pickfile="gmaps_cache.pickle"):
     if not, then fetch and make pickle from gmaps API"""
     # if os.path.getsize(pickfile):  # check pickle file not empty
     if os.path.isfile(pickfile):  # check pickle file exists
+        print('looks like gmaps data already exists. Try loading')
         try:
             infile = open(pickfile,'rb')
             gmap_data = pickle.load(infile)
+            print('gmaps data loaded from pickle')
         except:
             print('could not load pickle data')
         else:
