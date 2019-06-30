@@ -26,7 +26,7 @@ dfLoc = pd.read_csv(os.path.join(folder, infile), encoding='UTF-8')
 locs = dfLoc.Name  # col containing place names
 
 def fetchGmapLocationData(dfLoc):
-    """ fetch results once, so don't need to keep hitting the gmaps API
+    """ fetch results, should cache to avoid hitting the API
     """
     place_search_cache = []
     # for loc in locs[0:3]:  # testing limited search only
@@ -35,13 +35,14 @@ def fetchGmapLocationData(dfLoc):
         place = gmaps.places(loc, mel_loc, radius=10000)  # place search api
         print('found:', place['results'][0]['name'])
         place_search_cache.append(place)
-    return place_search_list
+    return place_search_cache
 
 
 def getGmapLocationData(dfLoc, pickfile="gmaps_cache.pickle"):
     """ Try to get data from Pickle file, ignores dfLoc input
     if not, then fetch and make pickle from gmaps API"""
-    if os.path.isfile(pickfile):
+    # if os.path.getsize(pickfile):  # check pickle file not empty
+    if os.path.isfile(pickfile):  # check pickle file exists
         try:
             infile = open(pickfile,'rb')
             gmap_data = pickle.load(infile)
@@ -50,7 +51,7 @@ def getGmapLocationData(dfLoc, pickfile="gmaps_cache.pickle"):
         else:
             infile.close()
     else:
-        print('no file found - re-download data')
+        print('no data found - re-download data')
         try:
             outfile = open(pickfile,'wb')
             gmap_data = fetchGmapLocationData(dfLoc)
@@ -60,7 +61,6 @@ def getGmapLocationData(dfLoc, pickfile="gmaps_cache.pickle"):
             print('error saving gmaps data as pickle')
         else:
             outfile.close()
-            raise
     return gmap_data
 
 
@@ -69,8 +69,8 @@ def extractLocDataFromCache(place_search_cache):
     """
     gpid_l, lat_l, lng_l, rating_l = [], [], [], []
     for place in place_search_cache:
-        lng_l.extend([place['results'][0]['geometry']['location']['lat']])  # how to access lat
-        lat_l.extend([place['results'][0]['geometry']['location']['lng']])  # and long
+        lng_l.extend([place['results'][0]['geometry']['location']['lng']])  # how to access lat
+        lat_l.extend([place['results'][0]['geometry']['location']['lat']])  # and long
         gpid_l.extend([place['results'][0]['place_id']])
         try:
             rating_l.extend([place['results'][0]['rating']])
@@ -89,5 +89,5 @@ dfLoc['lat'] = lat_l
 dfLoc['lng'] = lng_l
 dfLoc['rating'] = rating_l
 
-# Save as csv
+# Save as csv to folder
 dfLoc.to_csv(os.path.join(folder, outfile), index=False)

@@ -18,12 +18,14 @@ import numpy as np
 # from sklearn.metrics import mean_squared_log_error as msle
 
 
-""" Model creation outline
+""" Model purpose
+Using an input matrix of 3 chosen locations, rank all possible location vectors
+
 1. Define input data matrix (assume clean data already)
 2. Set up model params 
 
 """
 
 # -- # Testing data input
-pd.read_csv()
+# pd.read_csv()
 
