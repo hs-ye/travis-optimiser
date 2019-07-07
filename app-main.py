@@ -13,13 +13,17 @@ def home():
 def about():
     return "About"
 
-@app.route("/api")
-def api():
+@app.route("/api_test")
+def api_test():
     test = pd.DataFrame(columns=['Name'])
     test['Name'] = ['southern cross station']
     print(test)
     data = fetchGmapLocationData(test)
     return jsonify(data)
+
+@app.route("/api_router")
+def api_router():
+
 
 if __name__ == '__main__':
     app.run(debug=True)

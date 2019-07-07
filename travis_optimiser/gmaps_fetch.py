@@ -24,9 +24,9 @@ pickfile = 'gmaps_cache.pickle'
 outfile = 'locations_add_data.csv'
 
 def fetchGmapLocationData(dfLoc):
-    """ fetch results, should cache to avoid hitting the API
+    """ does a search based on the 'name' col of a passed in df
     """
-    locs = dfLoc.Name  # col containing place names
+    locs = dfLoc.name  # col containing place names
     place_search_cache = []
     # for loc in locs[0:3]:  # testing limited search only
     for loc in locs:
@@ -65,8 +65,9 @@ def getGmapLocationData(dfLoc, pickfile="gmaps_cache.pickle"):
     return gmap_data
 
 
-def extractLocDataFromCache(place_search_cache):
-    """ don't need the gmaps.place() api yet - see test filefor details
+def extractLocDataFromGmapJSON(place_search_cache):
+    """ Gets the required lat long location data from GMAP JSON response
+    don't need the gmaps.place() api yet - see test filefor details
     """
     gpid_l, lat_l, lng_l, rating_l = [], [], [], []
     for place in place_search_cache:
@@ -83,7 +84,7 @@ def extractLocDataFromCache(place_search_cache):
 
 def getLocDataToCsv(dfLoc):
     place_search_cache = getGmapLocationData(dfLoc)
-    gpid_l, lat_l, lng_l, rating_l = extractLocDataFromCache(place_search_cache)
+    gpid_l, lat_l, lng_l, rating_l = extractLocDataFromGmapJSON(place_search_cache)
     # add extensions to df
     dfLoc['gpid'] = gpid_l
     dfLoc['lat'] = lat_l
@@ -91,6 +92,8 @@ def getLocDataToCsv(dfLoc):
     dfLoc['rating'] = rating_l
     # Save as csv to folder
     dfLoc.to_csv(os.path.join(folder, outfile), index=False)
+
+
 if __name__ == "__main__":
     # test data file
     dfLoc = pd.read_csv(os.path.join(folder, infile), encoding='UTF-8')
