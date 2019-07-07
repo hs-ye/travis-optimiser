@@ -43,6 +43,7 @@ def haversineVectDist(s_lat, s_lng, e_lat, e_lng, scale=1000):
    """Calculate haversine distances elementwise for two lists of long/lats
    input: 
         4 lists of equal length, containing the lat/long of start and end pt pairs
+        NOTE: lat/longs should be in degrees
         scale: 1000 for m, 1 for km etc.
    returns: 1D matrix of length n"""
    R = 6373.0  # approximate radius of earth in km
@@ -70,7 +71,11 @@ def createTspSolverData(dfLoc, start_node=0):
 
 def distanceCallback(from_index, to_index):
     """ ortools tsp solver method, gets distances from the distance matrix
-    notice we are using numpy array slicing, rather than python lists"""
+        notice we are using numpy array slicing, rather than python lists
+        NOTE IMPORTANT: For some reason, this function definition must be defined AFTER the 'manager' 
+        instance is created, for some reason.
+        See https://stackoverflow.com/questions/55862927/python-or-tools-function-does-not-work-when-called-from-within-a-python-package
+    """
     from_node = manager.IndexToNode(from_index)
     to_node = manager.IndexToNode(to_index)
     return data['distance_matrix'][from_node, to_node]
@@ -93,29 +98,44 @@ def printSolutionToConsole(manager, routing, assignment):
 
 def getSolutionAsDF(manager, routing, assignment):
     """returns route solution as a dataframe"""
-    print('Total travel dist: {} m'.format(assignment.ObjectiveValue()))
+    print('Solution of minimal travel dist: {} m'.format(assignment.ObjectiveValue()))
     index = routing.Start(0)
     total_route_distance = 0
-    result = pd.DataFrame(columns=['node', 'distance'])
+    result = pd.DataFrame(columns=['node', 'dist_to_next'])
     order = 0
     while not routing.IsEnd(index):  # loop through all nodes
         result.loc[order, 'node'] = int(manager.IndexToNode(index))
         # node = manager.IndexToNode(index)  # current node
         previous_index = index  # increment to next node
         index = assignment.Value(routing.NextVar(index))
-        result.loc[order, 'distance'] = routing.GetArcCostForVehicle(previous_index, index, 0)
-        total_route_distance += result.loc[order, 'distance']
+        result.loc[order, 'dist_to_next'] = routing.GetArcCostForVehicle(previous_index, index, 0)
+        total_route_distance += result.loc[order, 'dist_to_next']
         order += 1
     return result
-    # plan_output += ' {}\n'.format(manager.IndexToNode(index))
-    # plan_output += 'Route distance: {}m\n'.format(total_route_distance)
-    # print(plan_output)
 
 
-def solveRouting():
+def solveRouting(dfLoc, s_node=0):
+    """ Solves the shortest route of locations given in the input df
+    inputs:
+        dfLoc: df of nodes, with 'lat' and 'lng' values as columns, in degrees
+    returns:
+        a df with nodes in order of shortest route
+    """
+    data = createTspSolverData(dfLoc, start_node=0)  # start node is the start point
     manager = pywrapcp.RoutingIndexManager(
         len(data['distance_matrix']), data['num_vehicles'], data['depot'])
     routing = pywrapcp.RoutingModel(manager)
+
+    def distanceCallback(from_index, to_index):
+        """ ortools tsp solver method, gets distances from the distance matrix
+        using numpy array slicing, rather than python lists
+        NOTE IMPORTANT: For some reason, this function definition must be defined AFTER the 'manager' 
+        instance is created, for some reason. 
+        See https://stackoverflow.com/questions/55862927/python-or-tools-function-does-not-work-when-called-from-within-a-python-package
+        """
+        from_node = manager.IndexToNode(from_index)
+        to_node = manager.IndexToNode(to_index)
+        return data['distance_matrix'][from_node, to_node]
 
     transit_callback_index = routing.RegisterTransitCallback(distanceCallback)
     routing.SetArcCostEvaluatorOfAllVehicles(transit_callback_index)
@@ -123,20 +143,23 @@ def solveRouting():
     search_parameters = pywrapcp.DefaultRoutingSearchParameters()
     search_parameters.first_solution_strategy = (
         routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC)
+    assignment = routing.SolveWithParameters(search_parameters)
 
+    if assignment:
+        printSolutionToConsole(manager, routing, assignment)
+        dfAns = getSolutionAsDF(manager, routing, assignment)
+        dfLoc.index.name = 'node'
+        dfAns = dfAns.merge(dfLoc, on=['node','node'])
+        return dfAns
+    print('Error - no solution found, check input data')
 
 
 if __name__ == '__main__':
 
-    # load data
+    # load test data
     folders = ['travis_optimiser','test_data']
     locfile = 'locations_add_data.csv'
 
     dfLoc = pd.read_csv(os.path.join(*folders, locfile))
-    data = createTspSolverData(dfLoc, start_node=5)  # start node is the start point
-
-    assignment = routing.SolveWithParameters(search_parameters)
-    if assignment:
-        printSolutionToConsole(manager, routing, assignment)
-        test = getSolutionAsDF(manager, routing, assignment)
-        print(test.head())
+    ans = solveRouting(dfLoc)
+    print(ans.head())

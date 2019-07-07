@@ -23,8 +23,9 @@ infile = 'locations.csv'
 pickfile = 'gmaps_cache.pickle'
 outfile = 'locations_add_data.csv'
 
-def fetchGmapLocationData(dfLoc):
+def fetchGmapLocationData(dfLoc, useId=False):
     """ does a search based on the 'name' col of a passed in df
+    TODO: Use the Gmaps ID to fetch locations based on useID param
     """
     locs = dfLoc.name  # col containing place names
     place_search_cache = []
@@ -37,9 +38,10 @@ def fetchGmapLocationData(dfLoc):
     return place_search_cache
 
 
-def getGmapLocationData(dfLoc, pickfile="gmaps_cache.pickle"):
+def getCachedGmapData(dfLoc, pickfile="gmaps_cache.pickle"):
     """ Try to get data from Pickle file, if it exists then ignores dfLoc
-    if not, then fetch data from dfLoc and make pickle from gmaps API"""
+    if not, then fetch data from dfLoc and make pickle from gmaps API
+    Doesn't check pickle file contents"""
     # if os.path.getsize(pickfile):  # check pickle file not empty
     if os.path.isfile(pickfile):  # check pickle file exists
         print('looks like gmaps data already exists. Try loading')
@@ -82,8 +84,12 @@ def extractLocDataFromGmapJSON(place_search_cache):
     print(len(gpid_l), len(lat_l), len(lng_l), len(rating_l))
     return gpid_l, lat_l, lng_l, rating_l
 
-def getLocDataToCsv(dfLoc):
-    place_search_cache = getGmapLocationData(dfLoc)
+
+def getLocDataToDF(dfLoc, saveCSV=False, use_cache=False):
+    if use_cache:
+        place_search_cache = getCachedGmapData(dfLoc)
+    else:  # skip the caching logic
+        place_search_cache = fetchGmapLocationData(dfLoc)
     gpid_l, lat_l, lng_l, rating_l = extractLocDataFromGmapJSON(place_search_cache)
     # add extensions to df
     dfLoc['gpid'] = gpid_l
@@ -91,12 +97,13 @@ def getLocDataToCsv(dfLoc):
     dfLoc['lng'] = lng_l
     dfLoc['rating'] = rating_l
     # Save as csv to folder
-    dfLoc.to_csv(os.path.join(folder, outfile), index=False)
-
+    if saveCSV:
+        dfLoc.to_csv(os.path.join(folder, outfile), index=False)
+    return dfLoc
 
 if __name__ == "__main__":
     # test data file
     dfLoc = pd.read_csv(os.path.join(folder, infile), encoding='UTF-8')
-    getLocDataToCsv(dfLoc)
+    getLocDataToDF(dfLoc, use_cache=True, saveCSV=True)
 
 
