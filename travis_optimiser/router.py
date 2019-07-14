@@ -4,8 +4,7 @@ in sequence on the shortest path
 Current implementation users google ortools solver
 '''
 
-from ortools.constraint_solver import routing_enums_pb2
-from ortools.constraint_solver import pywrapcp
+from ortools.constraint_solver import routing_enums_pb2, pywrapcp
 import numpy as np
 import pandas as pd
 import os
@@ -61,24 +60,24 @@ def createTspSolverData(dfLoc, start_node=0):
     """ Placeholder: Testing data maker
     """
     data = {}
-    lats = dfLoc.lat.to_numpy().reshape(-1,1)
-    lngs = dfLoc.lng.to_numpy().reshape(-1,1)
+    lats = dfLoc.lat.values.reshape(-1,1)
+    lngs = dfLoc.lng.values.reshape(-1,1)
     data['distance_matrix'] = createDistMatrix(lats, lngs)
     data['num_vehicles'] = 1
     data['depot'] = start_node
     return data
 
 
-def distanceCallback(from_index, to_index):
-    """ ortools tsp solver method, gets distances from the distance matrix
-        notice we are using numpy array slicing, rather than python lists
-        NOTE IMPORTANT: For some reason, this function definition must be defined AFTER the 'manager' 
-        instance is created, for some reason.
-        See https://stackoverflow.com/questions/55862927/python-or-tools-function-does-not-work-when-called-from-within-a-python-package
-    """
-    from_node = manager.IndexToNode(from_index)
-    to_node = manager.IndexToNode(to_index)
-    return data['distance_matrix'][from_node, to_node]
+# def distanceCallback(from_index, to_index):
+#     """ ortools tsp solver method, gets distances from the distance matrix
+#         notice we are using numpy array slicing, rather than python lists
+#         NOTE IMPORTANT: For some reason, this function definition must be defined AFTER the 'manager' 
+#         instance is created, for some reason.
+#         See https://stackoverflow.com/questions/55862927/python-or-tools-function-does-not-work-when-called-from-within-a-python-package
+#     """
+#     from_node = manager.IndexToNode(from_index)
+#     to_node = manager.IndexToNode(to_index)
+#     return data['distance_matrix'][from_node, to_node]
 
 
 def printSolutionToConsole(manager, routing, assignment):
@@ -114,7 +113,7 @@ def getSolutionAsDF(manager, routing, assignment):
     return result
 
 
-def solveRouting(dfLoc, s_node=0):
+def solveRouting(dfLoc, s_node=0, strategy='default'):
     """ Solves the shortest route of locations given in the input df
     inputs:
         dfLoc: df of nodes, with 'lat' and 'lng' values as columns, in degrees
@@ -141,8 +140,14 @@ def solveRouting(dfLoc, s_node=0):
     routing.SetArcCostEvaluatorOfAllVehicles(transit_callback_index)
 
     search_parameters = pywrapcp.DefaultRoutingSearchParameters()
-    search_parameters.first_solution_strategy = (
-        routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC)
+    if strategy == 'default':
+        search_parameters.first_solution_strategy = (
+            routing_enums_pb2.FirstSolutionStrategy.PATH_CHEAPEST_ARC)
+    else:
+        search_parameters.local_search_metaheuristic = (
+            routing_enums_pb2.LocalSearchMetaheuristic.GUIDED_LOCAL_SEARCH)
+        search_parameters.time_limit.seconds = 30
+        search_parameters.log_search = True
     assignment = routing.SolveWithParameters(search_parameters)
 
     if assignment:

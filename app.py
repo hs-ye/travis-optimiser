@@ -1,10 +1,14 @@
 from flask import Flask, jsonify, request
 from travis_optimiser.gmaps_fetch import fetchGmapLocationData, getLocDataToDF
-from travis_optimiser.router import solveRouting
+from travis_optimiser.router import solveRouting, createTspSolverData
+import logging
 import pandas as pd
 import json
 
 app = Flask(__name__)
+
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger('')
 
 @app.route("/")
 @app.route("/home")
@@ -27,14 +31,16 @@ def api_route():
 
 @app.route("/api_test")
 def api_test():
+    logger.debug("running API test")
     test = pd.DataFrame(columns=['name'])
-    test['name'] = ['southern cross station', 'luna park', 'koko black', 
-        'university of melbourne']
-    data = getLocDataToDF(test)
-    ans = solveRouting(data)
+    test['name'] = ['southern cross station', 'luna park', 'sydney airport', 
+        'university of melbourne', 'koko black']
+    dfLoc = getLocDataToDF(test)
+    ans = solveRouting(dfLoc)
     return jsonify(ans.to_dict(orient='records'))
 
 
 
 if __name__ == '__main__':
     app.run(debug=True)
+    api_test()

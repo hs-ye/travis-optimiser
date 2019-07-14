@@ -13,7 +13,7 @@ from datetime import datetime
 import pympler  # for testing size of objects in memory
 from pympler import asizeof
 
-dfLoc = pd.read_csv('test_data/locations.csv', encoding='UTF-8')
+dfLoc = pd.read_csv('travis_optimiser/test_data/locations.csv', encoding='UTF-8')
 locs = dfLoc.Name
 # setup gmaps object
 gmaps = googlemaps.Client(key='AIzaSyBrY7HAvOgb8NHhW-mir7CQERHER8saC28')

@@ -8,7 +8,7 @@ To be passed to the cleaner for data cleaning
 
 import pandas as pd
 import numpy as np
-import requests
+# import requests
 import googlemaps
 import json
 import os
@@ -104,6 +104,7 @@ def getLocDataToDF(dfLoc, saveCSV=False, use_cache=False):
 if __name__ == "__main__":
     # test data file
     dfLoc = pd.read_csv(os.path.join(folder, infile), encoding='UTF-8')
-    getLocDataToDF(dfLoc, use_cache=True, saveCSV=True)
+    dfLoc = getLocDataToDF(dfLoc, use_cache=True)
+    # getLocDataToDF(dfLoc, use_cache=True, saveCSV=True)
 
 
