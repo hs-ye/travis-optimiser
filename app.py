@@ -27,14 +27,14 @@ def api_route():
     print(test)
     data = getLocDataToDF(test)
     ans = solveRouting(data)
-    return jsonify(test.to_dict(orient='records'))
+    return jsonify(ans.to_dict(orient='records'))
 
 @app.route("/api_test")
 def api_test():
     """run test"""
     test = pd.DataFrame(columns=['name'])
-    test['name'] = ['southern cross station', 'luna park', 'sydney airport', 
-        'university of melbourne', 'sydney opera house']
+    test['name'] = ["southern cross station", "luna park", "sydney airport", 
+        "university of melbourne", "sydney opera house"]
     dfLoc = getLocDataToDF(test)
     ans = solveRouting(dfLoc)
     return jsonify(ans.to_dict(orient='records'))
