@@ -3,13 +3,14 @@
 from __future__ import print_function
 from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
-
+import numpy as np
+from travis_optimiser.router import *
 
 
 def create_data_model():
     """Stores the data for the problem."""
     data = {}
-    data['distance_matrix'] = [
+    data['distance_matrix'] = np.array([
         [0, 2451, 713, 1018, 1631, 1374, 2408, 213, 2571, 875, 1420, 2145, 1972],
         [2451, 0, 1745, 1524, 831, 1240, 959, 2596, 403, 1589, 1374, 357, 579],
         [713, 1745, 0, 355, 920, 803, 1737, 851, 1858, 262, 940, 1453, 1260],
@@ -23,7 +24,7 @@ def create_data_model():
         [1420, 1374, 940, 1056, 879, 225, 1891, 1605, 1645, 679, 0, 1017, 1200],
         [2145, 357, 1453, 1280, 586, 887, 1114, 2300, 653, 1272, 1017, 0, 504],
         [1972, 579, 1260, 987, 371, 999, 701, 2099, 600, 1162, 1200, 504, 0],
-    ]  # yapf: disable
+    ])  # yapf: disable
     data['num_vehicles'] = 1
     data['depot'] = 0
     return data
@@ -48,24 +49,37 @@ def print_solution(manager, routing, assignment):
 def main():
     """Entry point of the program."""
     # Instantiate the data problem.
-    data = create_data_model()
+    data_test = create_data_model()
+    data_test = data  # from api test data
 
     # Create the routing index manager.
     manager = pywrapcp.RoutingIndexManager(
-        len(data['distance_matrix']), data['num_vehicles'], data['depot'])
+        len(data_test['distance_matrix']), data_test['num_vehicles'], data_test['depot'])
 
     # Create Routing Model.
     routing = pywrapcp.RoutingModel(manager)
 
+    # def distance_callback(from_index, to_index):
+    #     """Returns the distance between the two nodes."""
+    #     # Convert from routing variable Index to distance matrix NodeIndex.
+    #     from_node = manager.IndexToNode(from_index)
+    #     to_node = manager.IndexToNode(to_index)
+    #     return data['distance_matrix'][from_node][to_node]
 
-    def distance_callback(from_index, to_index):
-        """Returns the distance between the two nodes."""
-        # Convert from routing variable Index to distance matrix NodeIndex.
+    def distanceCallback(from_index, to_index):
+        """ ortools tsp solver method, gets distances from the distance matrix
+        using numpy array slicing, rather than python lists
+        NOTE IMPORTANT: For some reason, this function definition must be defined AFTER the 'manager' 
+        instance is created, for some reason. 
+        See https://stackoverflow.com/questions/55862927/python-or-tools-function-does-not-work-when-called-from-within-a-python-package
+        """
         from_node = manager.IndexToNode(from_index)
         to_node = manager.IndexToNode(to_index)
-        return data['distance_matrix'][from_node][to_node]
+        # return data['distance_matrix'][from_node, to_node]
+        # NOTE: This is the problem, 
+        return data_test['distance_matrix'][from_node, to_node]
 
-    transit_callback_index = routing.RegisterTransitCallback(distance_callback)
+    transit_callback_index = routing.RegisterTransitCallback(distanceCallback)
 
     # Define cost of each arc.
     routing.SetArcCostEvaluatorOfAllVehicles(transit_callback_index)

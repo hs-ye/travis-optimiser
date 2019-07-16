@@ -18,7 +18,7 @@ import pickle
 # TODO should wrap all this data in a class and pass in params
 gmaps = googlemaps.Client(key='AIzaSyBrY7HAvOgb8NHhW-mir7CQERHER8saC28')
 mel_loc = (-37.8132, 144.965)  # centre of search radius
-folder = 'test_data'
+folder = 'travis_optimiser\\test_data'
 infile = 'locations.csv'
 pickfile = 'gmaps_cache.pickle'
 outfile = 'locations_add_data.csv'
@@ -102,7 +102,7 @@ def getLocDataToDF(dfLoc, saveCSV=False, use_cache=False):
     return dfLoc
 
 if __name__ == "__main__":
-    # test data file
+    # test data file, assumes setup variables are run
     dfLoc = pd.read_csv(os.path.join(folder, infile), encoding='UTF-8')
     dfLoc = getLocDataToDF(dfLoc, use_cache=True)
     # getLocDataToDF(dfLoc, use_cache=True, saveCSV=True)

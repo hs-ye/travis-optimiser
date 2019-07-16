@@ -148,6 +148,7 @@ def solveRouting(dfLoc, s_node=0, strategy='default'):
             routing_enums_pb2.LocalSearchMetaheuristic.GUIDED_LOCAL_SEARCH)
         search_parameters.time_limit.seconds = 30
         search_parameters.log_search = True
+    
     assignment = routing.SolveWithParameters(search_parameters)
 
     if assignment:
