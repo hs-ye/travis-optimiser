@@ -26,6 +26,8 @@ geocode_result  # gives a lot more data than what we need
 """
 mel_loc = (-37.8132, 144.9)
 gtest = gmaps.places('chinatown melbourne', mel_loc, radius=10000)
+gtest = gmaps.places('southern cross station, melbourne', mel_loc, radius=10000)
+
 
 gtest.keys()
 len(gtest['results'])

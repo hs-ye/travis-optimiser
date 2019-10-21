@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from travis_optimiser.gmaps_fetch import fetchGmapLocationData, getLocDataToDF
 from travis_optimiser.router import *
+from travis_optimiser.recommender import recFromList, getGmaps
 import logging
 import pandas as pd
 import json
@@ -9,6 +10,8 @@ app = Flask(__name__)
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger('')
+
+gmaps = getGmaps()
 
 @app.route("/")
 @app.route("/home")
@@ -50,6 +53,20 @@ def api_test_from_csv():
     return jsonify(ans.to_dict(orient='records'))
 
 
+@app.route("/api_recommend_from_file")
+def api_recommend_from_file():
+    # use headers in get request: ids:["ChIJczgQh8lC1moR9r9gP44FRvY", "ChIJczgQh8lC1moR9r9gP44FRvY"]
+    headers = json.loads(request.headers.get('ids'))
+    print(headers)
+    id1 = headers[0]
+    id2 = headers[1]
+    # dfIds = pd.DataFrame(columns=['ids'])
+    # dfIds['ids'] = headers
+    folder = 'travis_optimiser\\test_data'
+    outfile = 'locations_recommender.csv'    
+    dfLoc = pd.read_csv(os.path.join(folder, outfile), encoding='UTF-8')
+    recs = recFromList(gmaps, id1, id2, dfLoc)  # default finds 'eat' places within 500m
+    return jsonify(recs.to_dict())
 
 
 if __name__ == '__main__':
