@@ -19,6 +19,7 @@ from utils.utilities import haversineVectDist
 
 # test google place ids
 id1 = 'ChIJczgQh8lC1moR9r9gP44FRvY'  # Chinatown Melbourne 墨尔本唐人街
+id1 = 'ChIJ9RT5wLRC1moRpIkhaxraJMc'  # ??
 id2 = 'ChIJdedaLk5d1moRQOX0CXZWBB0'  # Spencer Street Station
 
 dfLoc = pd.read_csv('travis_optimiser/test_data/locations_add_data.csv', encoding='UTF-8')
