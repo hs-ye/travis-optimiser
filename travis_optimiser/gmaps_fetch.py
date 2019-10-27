@@ -8,7 +8,6 @@ To be passed to the cleaner for data cleaning
 
 import pandas as pd
 import numpy as np
-import requests
 import googlemaps
 import json
 import os

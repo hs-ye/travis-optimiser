@@ -24,7 +24,6 @@ VERSION = '0.1.0'
 REQUIRED = [
     'pandas',
     'numpy',
-    'requests',
     'googlemaps',
     'ortools',
 ]

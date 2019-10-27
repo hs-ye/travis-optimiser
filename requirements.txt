@@ -1,0 +1,6 @@
+numpy==1.16.3
+pandas==0.24.2
+flask==1.0.3
+googlemaps==2.5.1
+ortools==7.2.6977
+google-python-cloud-debugger
