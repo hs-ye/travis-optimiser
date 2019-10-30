@@ -2,3 +2,4 @@
 .vscode/
 pandas/
 *.pyc
+.vscode/settings.json
