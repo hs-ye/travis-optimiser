@@ -8,8 +8,10 @@
     - check if search is single radius or between two locations
     - makes sure there are 5 results, and saves any additional searches to the csv file
 
+- Deploy to google cloud functions
+    - Modify storage location to a GCP cloud storage filepath
+
 - Content based recommender that classifies restaurants by type
 - Create a list of types of restaurants, for recommendation
-- Deploy to google cloud functions
 - System that links to accounts
 -

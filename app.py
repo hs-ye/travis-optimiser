@@ -56,16 +56,16 @@ def api_test_from_csv():
 
 @app.route("/api_recommend_from_file")
 def api_recommend_from_file():
-    # use headers in get request: ids:["ChIJczg~Qh8lC1moR9r9gP44FRvY", "ChIJczgQh8lC1moR9r9gP44FRvY"]
+    # use headers in get request: ids:["ChIJdedaLk5d1moRQOX0CXZWBB0", "ChIJczgQh8lC1moR9r9gP44FRvY"]
     headers = json.loads(request.headers.get('ids'))
     print(headers)
     id1 = headers[0]
     id2 = headers[1]
     # dfIds = pd.DataFrame(columns=['ids'])
     # dfIds['ids'] = headers
-    # folder = 'travis_optimiser\\test_data'  #  PC
-    folder = 'travis_optimiser/test_data'  # MAC
-    outfile = 'locations_recommender.csv'    
+    folder = 'travis_optimiser\\test_data'  #  PC
+    # folder = 'travis_optimiser/test_data'  # MAC
+    outfile = 'locations_recommender.csv'
     dfLoc = pd.read_csv(os.path.join(folder, outfile), encoding='UTF-8')
     recs = rec_from_list(gmaps, id1, id2, dfLoc)  # default finds 'eat' places within 500m
     return jsonify(recs.to_dict())

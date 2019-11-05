@@ -19,7 +19,7 @@ from utils.utilities import haversineVectDist
 
 # test google place ids
 id1 = 'ChIJczgQh8lC1moR9r9gP44FRvY'  # Chinatown Melbourne 墨尔本唐人街
-id1 = 'ChIJ9RT5wLRC1moRpIkhaxraJMc'  # ??
+id1 = 'ChIJ9RT5wLRC1moRpIkhaxraJMc'  # mckillops lane
 id2 = 'ChIJdedaLk5d1moRQOX0CXZWBB0'  # Spencer Street Station
 
 dfLoc = pd.read_csv('travis_optimiser/test_data/locations_add_data.csv', encoding='UTF-8')
@@ -47,3 +47,50 @@ dfRecommend = dfLoc[dist < 300]  # 300m walking distance
 dfRecommend.head(5).sort_values('rating', ascending=False, inplace=True)
 dfRecommend.gpid
 lat_mid, lng_mid
+
+# Testing for the places_nearby search
+target_lat_lon = (-37.82347, 144.970761)  # south melb near NGV
+new_places = gmaps.places_nearby(location=target_lat_lon, radius=500, type='restaurant')
+new_places = gmaps.places_nearby(location=target_lat_lon, radius=500, type='restaurant', rank_by='prominence')
+new_places['results']
+new_places['results'][0]
+len(new_places['results'])  # 13 results
+[(_['name'], _['geometry']['location']) for _ in new_places['results']]
+
+test = [(
+        _['name'], 
+        _['geometry']['location']['lat'],
+        _['geometry']['location']['lng'],
+        _['place_id'],
+        _['rating'],  # this will throw keyerror as not all places have a rating
+        # _['user_ratings_total'],
+        # _['price_level'],
+        _['vicinity']
+    ) for _ in new_places['results']]
+
+pd.DataFrame(test)
+
+test = []
+for _ in new_places['results']:
+    name = _['name']
+    lat = _['geometry']['location']['lat']
+    lng = _['geometry']['location']['lng']
+    place_id = _['place_id']
+    try:
+        rating = _['rating']
+        user_ratings_total = _['user_ratings_total']
+    except KeyError:
+        rating = None
+        user_ratings_total = 0
+    
+    try:
+        price_level = _['price_level']
+    except KeyError:
+        price_level = None
+    address = _['vicinity']
+    test.append([name, lat, lng, place_id, rating, user_ratings_total, price_level, address,])
+
+pd.DataFrame(test,
+    columns=["name", "lat", "lng", "place_id", "rating", "user_ratings_total", "price_level", "address",])
+
+
