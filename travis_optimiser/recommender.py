@@ -3,7 +3,7 @@
 Content based recommender  v1
 Sets up the recommender model to rank list of places, to be used by the predictor
 
-This model doesn't require any of the ML libraries, pure content matrix content
+This model doesn't require any of the ML libraries, pure content matrix approach
 '''
 
 import pandas as pd
@@ -21,8 +21,7 @@ from utils import utilities
 
 
 """ Model purpose
-Using an input matrix of 3 chosen locations, rank all possible location vectors
-
+Using an input matrix of 2 chosen locations, rank all possible location vectors
 1. Define input data matrix (assume clean data already)
 2. Set up model params 
 
@@ -31,11 +30,11 @@ Using an input matrix of 3 chosen locations, rank all possible location vectors
 # -- # Testing data input
 # pd.read_csv()
 
-def getGmaps(key='AIzaSyBrY7HAvOgb8NHhW-mir7CQERHER8saC28'):
+def get_gmaps(key='AIzaSyBrY7HAvOgb8NHhW-mir7CQERHER8saC28'):
     gmaps = googlemaps.Client(key=key)
     return gmaps
 
-def getBestRec():
+def get_best_recs():
     ''' generic recommender controller function to handle various scenarios
     e.g.:
         - no items in location on the list
@@ -47,7 +46,7 @@ def getBestRec():
     pass
 
 
-def recFromList(gmaps, id1, id2, dfLoc, rectype='eat', reclimit=5,radius=500):
+def rec_from_list(gmaps, id1, id2, dfLoc, rectype='eat', reclimit=5,radius=500):
     """ Given 2 google ids, works out where to perform a search, and does so in a radius
     Searches a pre-defined list of places
 
@@ -77,13 +76,15 @@ def recFromList(gmaps, id1, id2, dfLoc, rectype='eat', reclimit=5,radius=500):
     return dfRec.gpid  # gets the top 5 ids
 
 
-def recFromLoc(id1, id2, radius):
-    """ Given 2 google ids, works out where to perform a search, and does so in a radius
+def rec_search_at_latlon_point(lat: float, lon: float, radius: int):
+    """ Given a single point, search in a radius
     """
-    pass
+
+    return lat + lon + radius
 
 
-def getGooglePlaceID(gmaps, search_string):
+
+def get_latlong_from_gpid(gmaps, search_string):
     '''
     '''
     pass

@@ -1,17 +1,18 @@
 from flask import Flask, jsonify, request
 from travis_optimiser.gmaps_fetch import fetchGmapLocationData, getLocDataToDF
-from travis_optimiser.router import *
-from travis_optimiser.recommender import recFromList, getGmaps
+from travis_optimiser.router import solve_routing
+from travis_optimiser.recommender import rec_from_list, get_gmaps
 import logging
 import pandas as pd
 import json
+import os
 
 app = Flask(__name__)
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger('')
 
-gmaps = getGmaps()
+gmaps = get_gmaps()
 
 @app.route("/")
 @app.route("/home")
@@ -29,7 +30,7 @@ def api_route():
     test['name'] = headers
     print(test)
     data = getLocDataToDF(test)
-    ans = solveRouting(data)
+    ans = solve_routing(data)
     return jsonify(ans.to_dict(orient='records'))
 
 @app.route("/api_test")
@@ -39,17 +40,17 @@ def api_test():
     test['name'] = ["southern cross station", "luna park", "sydney airport", 
         "university of melbourne", "sydney opera house"]
     dfLoc = getLocDataToDF(test)
-    ans = solveRouting(dfLoc)
+    ans = solve_routing(dfLoc)
     return jsonify(ans.to_dict(orient='records'))
 
 @app.route("/api_test_from_csv")
 def api_test_from_csv():
     """ read locations from csv files and solve, assumes already geocoded"""
     folder = 'travis_optimiser\\test_data'
-    pickfile = 'gmaps_cache.pickle'
+    # pickfile = 'gmaps_cache.pickle'
     outfile = 'locations_add_data.csv'
     dfLoc = pd.read_csv(os.path.join(folder, outfile), encoding='UTF-8')
-    ans = solveRouting(dfLoc)
+    ans = solve_routing(dfLoc)
     return jsonify(ans.to_dict(orient='records'))
 
 
@@ -66,7 +67,7 @@ def api_recommend_from_file():
     folder = 'travis_optimiser/test_data'  # MAC
     outfile = 'locations_recommender.csv'    
     dfLoc = pd.read_csv(os.path.join(folder, outfile), encoding='UTF-8')
-    recs = recFromList(gmaps, id1, id2, dfLoc)  # default finds 'eat' places within 500m
+    recs = rec_from_list(gmaps, id1, id2, dfLoc)  # default finds 'eat' places within 500m
     return jsonify(recs.to_dict())
 
 

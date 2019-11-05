@@ -113,7 +113,7 @@ def getSolutionAsDF(manager, routing, assignment):
     return result
 
 
-def solveRouting(dfLoc, s_node=0, strategy='default'):
+def solve_routing(dfLoc, s_node=0, strategy='default'):
     """ Solves the shortest route of locations given in the input df
     inputs:
         dfLoc: df of nodes, with 'lat' and 'lng' values as columns, in degrees
@@ -167,5 +167,5 @@ if __name__ == '__main__':
     locfile = 'locations_add_data.csv'
 
     dfLoc = pd.read_csv(os.path.join(*folders, locfile))
-    ans = solveRouting(dfLoc)
+    ans = solve_routing(dfLoc)
     print(ans.head())
