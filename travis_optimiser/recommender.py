@@ -11,6 +11,7 @@ import numpy as np
 import googlemaps
 from utils import utilities
 from typing import List, Tuple
+from travis_optimiser.recommender_data import get_df_loc, update_poi_data
 # -- # pre-processing & pipelines
 # from sklearn.decomposition import PCA, KernelPCA
 # from sklearn.pipeline import Pipeline
@@ -20,6 +21,7 @@ from typing import List, Tuple
 # # -- # scoring & validation
 # from sklearn.metrics import mean_squared_log_error as msle
 
+cfg = utilities.get_cfg()
 
 """ Model purpose
 Using an input matrix of 2 chosen locations, rank all possible location vectors
@@ -28,61 +30,51 @@ Using an input matrix of 2 chosen locations, rank all possible location vectors
 
 """
 
-# -- # Testing data input
-# pd.read_csv()
-
-def get_gmaps(key='AIzaSyBrY7HAvOgb8NHhW-mir7CQERHER8saC28'):
+def get_gmaps(key=cfg['google_key']):
     gmaps = googlemaps.Client(key=key)
     return gmaps
 
-def get_best_recs(gmaps, dfLoc, input_gpids: List[str], rectype: str, reclimit=5,
-        radius=500):
-    ''' generic recommender controller function to handle various scenarios
-    e.g.:
+def get_best_recs(gmaps, input_gpids: List[str], rectype: str, reclimit=5,
+        radius=500) -> pd.core.frame.DataFrame:
+    ''' main recommender controller function, will try to return top recommendatoins
+    Should handle various scenarios:
         - no items in location on the list
         - not enough items on the list (should be 5, or some other number)
         - expanding the search radius and seeing how far away it is
         - calling the google api to get a 'new' item
         - saving new items to the list 
+    NOTE: WIP, only does the existing recommendations for time being
     '''
-    # NOTE: TESTING
-    # input_gpids = [
-    #     "ChIJdedaLk5d1moRQOX0CXZWBB0",  # sthn cross
-    #     "ChIJczgQh8lC1moR9r9gP44FRvY",  # chinatown
-    # ]
-
+    dfLoc = get_df_loc()  # get the list of existing POIs known to the recommender
     num_locations = len(input_gpids)
     if num_locations == 1:    
         target_lat_lon = get_latlong_from_gpid(gmaps, input_gpids[0])
     
     elif num_locations == 2:
-        target_lat_lon = calc_midpoint_of_locs(gmaps, input_gpids)
-    
-    # NOTE: TESTING
-    # target_lat_lon = (-37.823470, 144.970761)
-    # rectype = 'eat'
+        target_lat_lon = utilities.calc_midpoint_of_gpids(gmaps, input_gpids)
 
-    rec_results = rec_search_list_at_latlon(dfLoc, target_lat_lon, rectype, radius)
+    rec_results = rec_search_list_at_latlon(dfLoc, target_lat_lon, rectype='eat')
+    # NOTE: rectype for searching at list is different for searching at latlon
+
     if len(rec_results) < 5:
-        new_results = rec_search_new_at_latlon(gmaps, target_lat_lon, rectype='restaurant')
+        new_results = rec_search_gmaps_at_latlon(gmaps, target_lat_lon, rectype='restaurant')
         # TODO: 
         # set operation to remove existing gpids
         # re-ranking of new options (could be based on 'real' recommender in future)
         # add the new ones to the old ones, save to DF
         # return to the main list
     
+    return rec_results
 
-    
-def calc_midpoint_of_locs(gmaps, input_gpids: List[str]) -> Tuple[float]:
-    lat1, lon1 = get_latlong_from_gpid(gmaps, input_gpids[0])
-    lat2, lon2 = get_latlong_from_gpid(gmaps, input_gpids[1])
-    lat_mid = (lat1 + lat2) / 2
-    lon_mid = (lon1 + lon2) / 2
-    return lat_mid, lon_mid
+def append_and_update_new_poi_results(rec_results, new_results) -> pd.core.frame.DataFrame:
+    """ Performs cleaning then combines the results from existing and new
+    adds any new search results to db as required
+    """
+    update_poi_data(cleaned_new_results,method=cfg['backend'])
 
 def rec_search_list_at_latlon(dfLoc, target_lat_lon: Tuple[float], rectype: str,
         reclimit=5, radius=500) -> pd.core.frame.DataFrame:
-
+    """ Searches existing list for items"""
     dfLoc = dfLoc[dfLoc.Category.str.lower()==rectype]  # filter for lower only
     
     lat, lon = target_lat_lon
@@ -95,8 +87,8 @@ def rec_search_list_at_latlon(dfLoc, target_lat_lon: Tuple[float], rectype: str,
     print(dfRec.name)
     return dfRec.gpid
 
-def rec_search_new_at_latlon(gmaps, target_lat_lon: Tuple[float], rectype: str, reclimit=5, 
-        radius=500):
+def rec_search_gmaps_at_latlon(gmaps, target_lat_lon: Tuple[float], rectype: str, reclimit=5, 
+        radius=500) -> pd.core.frame.DataFrame:
     """
     Searches google maps for avaliable places at the following
     Note rectype must be "restaurant" in googlemaps, see https://developers.google.com/places/supported_types
@@ -109,7 +101,7 @@ def rec_search_new_at_latlon(gmaps, target_lat_lon: Tuple[float], rectype: str, 
 
 def convert_gmaps_search_result_string_to_df(result_string: str) -> pd.core.frame.DataFrame:
     results = []
-    for _ in new_places['results']:
+    for _ in result_string['results']:
         name = _['name']
         lat = _['geometry']['location']['lat']
         lng = _['geometry']['location']['lng']
@@ -131,11 +123,12 @@ def convert_gmaps_search_result_string_to_df(result_string: str) -> pd.core.fram
         columns=["name", "lat", "lng", "gpid", "rating", "user_ratings_total", "price_level", "address",])
     return dfResults
 
-def rec_from_list(gmaps, id1, id2, dfLoc, rectype='eat', reclimit=5,radius=500):
-    """ Given 2 google ids, works out where to perform a search, and does so in a radius
+def rec_from_list(gmaps, id1, id2, dfLoc, rectype='eat', reclimit=5, radius=500
+                    ) -> pd.core.series.Series:
+    """
+    NOTE: OLD - Deprecated - DO NOT USE
+    Given 2 google ids, works out where to perform a search, and does so in a radius
     Searches a pre-defined list of places
-
-    TODO: see getBestRec function
     """
 
     dfLoc = dfLoc[dfLoc.Category.str.lower()==rectype]  # filter for lower only
@@ -164,7 +157,6 @@ def rec_from_list(gmaps, id1, id2, dfLoc, rectype='eat', reclimit=5,radius=500):
 
     return dfRec.gpid  # gets the top 5 ids
 
-
 def rec_search_at_latlon_point(lat: float, lon: float, radius: int):
     """ Given a single point, search in a radius
     """
@@ -173,14 +165,7 @@ def rec_search_at_latlon_point(lat: float, lon: float, radius: int):
 
 
 
-def get_latlong_from_gpid(gmaps, gpid: str) -> Tuple[float]:
-    '''
-    Retrieves the lat-long position of a given google place id
-    gmaps: Requires a google maps object with a valid API Key
-    '''
-    place_result = gmaps.place(place_id=gpid)
-
-    lat = place_result['result']['geometry']['location']['lat']
-    lng = place_result['result']['geometry']['location']['lng']
-    
-    return (lat, lng)
+if __name__ == "__main__":
+    # test_get_best_recs()
+    # test_search_at_latlon()
+    pass

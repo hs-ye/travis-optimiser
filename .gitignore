@@ -5,3 +5,4 @@ pandas/
 .vscode/settings.json
 *.pyc
 *config.yml
+.vscode/settings.json
