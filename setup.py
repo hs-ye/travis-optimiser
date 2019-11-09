@@ -27,6 +27,7 @@ REQUIRED = [
     'requests',
     'googlemaps',
     'ortools',
+    'flask',
 ]
 
 # What packages are optional?
