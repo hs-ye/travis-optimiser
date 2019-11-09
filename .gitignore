@@ -4,3 +4,4 @@ pandas/
 *.pyc
 .vscode/settings.json
 *.pyc
+*config.yml
