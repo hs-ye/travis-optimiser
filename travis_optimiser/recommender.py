@@ -207,14 +207,16 @@ def load_data_from_local():
 
 def load_data_from_gcp_cloud(cfg):
     # TODO Remove hardcoding
-    bucket_folder = "csv_data/"  # the correct way for unix
+    bucket_folder = 'travis_recommender/csv_data/'  # the correct way for unix
     file = "locations_recommender.csv"
-    blob = bucket.blob(bucket_folder + file)
-    filename = blob.name.split('/')[-1]
-    local_folder = "scripts"
-    dl_path = os.path.join(local_folder, filename)
-    blob.download_to_filename(dl_path)
-    print(f'{filename} downloaded from bucket.')
+    # blob = bucket.blob(bucket_folder + file)
+    # filename = blob.name.split('/')[-1]
+    # local_folder = "scripts"
+    # dl_path = os.path.join(local_folder, filename)
+    # blob.download_to_filename(dl_path)
+    # print(f'{filename} downloaded from bucket.')
+
+    dl_path = 'gs://'+ bucket_folder + file
     dfLoc = pd.read_csv(dl_path, encoding='UTF-8')
     return dfLoc
 
