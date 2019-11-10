@@ -1,0 +1,11 @@
+recommender:  # main options for the recommender, if any
+    secret:  # secret key
+backend: local # which backend data to use
+data_local:  # options used for running a 'local' version of the recommender
+    folder_pc: travis_optimiser\test_data  #  PC
+    folder_unix: travis_optimiser/test_data  # MAC
+    data_file: locations_recommender.csv
+data_gcp:  # links to cloud store and other places
+    cloud_store:  # bucket location
+google_key:  # google maps api key
+gcp_storage_key:  # gcp cloud storage api key
