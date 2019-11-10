@@ -4,3 +4,4 @@ pandas
 numpy
 googlemaps
 pyyaml
+google-cloud-storage
