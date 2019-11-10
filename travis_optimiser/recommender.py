@@ -13,7 +13,7 @@ import os
 from google.cloud import storage
 from utils import utilities
 from typing import List, Tuple, Dict
-# from travis_optimiser.recommender_data import get_df_loc, update_poi_data  # defined in body
+# from travis_optimiser.recommender_data import get_df_loc, update_poi_data  # now defined in body, could be moved elsewhere
 # -- # pre-processing & pipelines
 # from sklearn.decomposition import PCA, KernelPCA
 # from sklearn.pipeline import Pipeline
@@ -52,8 +52,8 @@ def get_best_recs(gmaps, input_gpids: List[str], rectype: str, cfg: Dict, reclim
         - saving new items to the list 
     NOTE: WIP, only does the existing recommendations for time being
     '''
-    if isinstance(cfg, type(None)):
-        cfg = utilities.get_cfg()
+    # if isinstance(cfg, type(None)):
+        # cfg = utilities.get_cfg()
     dfLoc = get_df_loc(method=cfg['backend'])  # get the list of existing POIs known to the recommender
     num_locations = len(input_gpids)
     if num_locations == 1:    
