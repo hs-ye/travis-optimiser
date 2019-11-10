@@ -58,6 +58,7 @@ def get_best_recs(gmaps, input_gpids: List[str], rectype: str, reclimit=5,
 
     if len(rec_results) < 5:
         new_results = rec_search_gmaps_at_latlon(gmaps, target_lat_lon, rectype='restaurant')
+        rec_results = append_and_update_new_poi_results(rec_results, new_results)
         # TODO: 
         # set operation to remove existing gpids
         # re-ranking of new options (could be based on 'real' recommender in future)
@@ -69,8 +70,11 @@ def get_best_recs(gmaps, input_gpids: List[str], rectype: str, reclimit=5,
 def append_and_update_new_poi_results(rec_results, new_results) -> pd.core.frame.DataFrame:
     """ Performs cleaning then combines the results from existing and new
     adds any new search results to db as required
+    TODO: implement
     """
+    cleaned_new_results = new_results  # TODO: implement this
     update_poi_data(cleaned_new_results,method=cfg['backend'])
+    return rec_results
 
 def rec_search_list_at_latlon(dfLoc, target_lat_lon: Tuple[float], rectype: str,
         reclimit=5, radius=500) -> pd.core.frame.DataFrame:
@@ -162,6 +166,8 @@ def rec_search_at_latlon_point(lat: float, lon: float, radius: int):
     """
     # NOTE WIP
     return lat + lon + radius
+
+
 
 
 
