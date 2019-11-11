@@ -13,7 +13,7 @@ import os
 from google.cloud import storage
 from utils import utilities
 from typing import List, Tuple, Dict
-# from travis_optimiser.recommender_data import get_df_loc, update_poi_data  # now defined in body, could be moved elsewhere
+from travis_optimiser.recommender_data import get_df_loc, update_poi_data 
 # -- # pre-processing & pipelines
 # from sklearn.decomposition import PCA, KernelPCA
 # from sklearn.pipeline import Pipeline
@@ -54,7 +54,7 @@ def get_best_recs(gmaps, input_gpids: List[str], rectype: str, cfg: Dict, reclim
     '''
     # if isinstance(cfg, type(None)):
         # cfg = utilities.get_cfg()
-    dfLoc = get_df_loc(method=cfg['backend'])  # get the list of existing POIs known to the recommender
+    dfLoc = get_df_loc(cfg=cfg, method=cfg['backend'],)  # get the list of existing POIs known to the recommender
     num_locations = len(input_gpids)
     if num_locations == 1:    
         target_lat_lon = utilities.get_latlong_from_gpid(gmaps, input_gpids[0])
@@ -135,93 +135,6 @@ def convert_gmaps_search_result_string_to_df(result_string: str) -> pd.core.fram
     dfResults = pd.DataFrame(results,
         columns=["name", "lat", "lng", "gpid", "rating", "user_ratings_total", "price_level", "address",])
     return dfResults
-
-def rec_from_list(gmaps, id1, id2, dfLoc, rectype='eat', reclimit=5, radius=500
-                    ) -> pd.core.series.Series:
-    """
-    NOTE: OLD - Deprecated - DO NOT USE
-    Given 2 google ids, works out where to perform a search, and does so in a radius
-    Searches a pre-defined list of places
-    """
-
-    dfLoc = dfLoc[dfLoc.Category.str.lower()==rectype]  # filter for lower only
-
-    # NOTE TESTING
-    # id1 = "ChIJdedaLk5d1moRQOX0CXZWBB0"
-    # id2 = "ChIJczgQh8lC1moR9r9gP44FRvY"
-
-    place1 = gmaps.place(place_id=id1)
-    place2 = gmaps.place(place_id=id2)
-
-    lat = place1['result']['geometry']['location']['lat']
-    lng = place1['result']['geometry']['location']['lng']
-
-    lat2 = place2['result']['geometry']['location']['lat']
-    lng2 = place2['result']['geometry']['location']['lng']
-
-    lat_mid = (lat + lat2) / 2
-    lng_mid = (lng + lng2) / 2
-
-    dist = utilities.haversineVectDist(lat_mid, lng_mid, 
-        dfLoc.lat.to_numpy(), dfLoc.lng.to_numpy())
-    dfRec = dfLoc[dist < radius]  # 300m walking distance
-
-    dfRec.head(reclimit).sort_values('rating', ascending=False, inplace=True)
-
-    return dfRec.gpid  # gets the top 5 ids
-
-
-def get_df_loc(method='local'):
-    """
-    obtains the recommender data as a dataframe, used for getting the current
-    copy of the data
-    method: local or gcp
-    returns: DataFrame of location data avaliable
-    """
-    if method == 'local':
-        dfLoc = load_data_from_local()
-    elif method == 'gcp':
-        dfLoc = load_data_from_gcp_cloud(cfg)
-    else:
-        print(f'error - non supported method: {method}')
-    return dfLoc
-
-def update_poi_data(update_data, method='local'):
-    """
-    TODO WIP function
-    Updates the existing data of POIs used by recommender, depending on the option used
-    """
-    if method == 'local':
-        dfLoc = update_data_to_local()
-    
-    print('POI data in {} updated'.format(method))
-
-def load_data_from_local():
-    # read data
-    # 
-    folder = 'travis_optimiser\\test_data'  #  PC
-    # folder = 'travis_optimiser/test_data'  # MAC
-    outfile = 'locations_recommender.csv'
-    dfLoc = pd.read_csv(os.path.join(folder, outfile), encoding='UTF-8')
-    return dfLoc
-
-def load_data_from_gcp_cloud(cfg):
-    # TODO Remove hardcoding
-    bucket_folder = 'travis_recommender/csv_data/'  # the correct way for unix
-    file = "locations_recommender.csv"
-    # blob = bucket.blob(bucket_folder + file)
-    # filename = blob.name.split('/')[-1]
-    # local_folder = "scripts"
-    # dl_path = os.path.join(local_folder, filename)
-    # blob.download_to_filename(dl_path)
-    # print(f'{filename} downloaded from bucket.')
-
-    dl_path = 'gs://'+ bucket_folder + file
-    dfLoc = pd.read_csv(dl_path, encoding='UTF-8')
-    return dfLoc
-
-def update_data_to_local():
-    pass
 
 
 if __name__ == "__main__":

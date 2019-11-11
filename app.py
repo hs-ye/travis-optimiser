@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request
 from travis_optimiser.gmaps_fetch import fetchGmapLocationData, getLocDataToDF
 from travis_optimiser.router import solve_routing
-from travis_optimiser.recommender import rec_from_list, get_gmaps, get_best_recs
+from travis_optimiser.recommender import get_gmaps, get_best_recs
 import logging
 import pandas as pd
 import json
@@ -69,14 +69,14 @@ def api_recommend_from_file():
     # folder = 'travis_optimiser/test_data'  # MAC
     outfile = 'locations_recommender.csv'
     dfLoc = pd.read_csv(os.path.join(folder, outfile), encoding='UTF-8')
-    recs = rec_from_list(gmaps, id1, id2, dfLoc)  # default finds 'eat' places within 500m
-    return jsonify(recs.to_dict())
+    # recs = rec_from_list(gmaps, id1, id2, dfLoc)  # default finds 'eat' places within 500m
+    # return jsonify(recs.to_dict())
 
 @app.route("/api_get_recs_eats")
 def api_get_recs_eats():
     headers = json.loads(request.headers.get('ids'))
     print(headers)
-    recs = get_best_recs(gmaps, headers, rectype='restaurant')
+    recs = get_best_recs(gmaps, headers, 'restaurant', cfg)
     return jsonify(recs.to_dict())
 
 
