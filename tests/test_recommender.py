@@ -1,18 +1,9 @@
-from travis_optimiser.recommender import rec_search_gmaps_at_latlon, rec_search_list_at_latlon, get_best_recs, get_gmaps, rec_from_list
-# from travis_optimiser.recommender_data import get_df_loc
-from travis_optimiser.recommender import get_df_loc
+from travis_optimiser.recommender import rec_search_gmaps_at_latlon, rec_search_list_at_latlon, get_best_recs, get_gmaps
+from travis_optimiser.recommender_data import get_df_loc
+# from travis_optimiser.recommender import get_df_loc
 from utils import utilities
 
 cfg = utilities.get_cfg()
-
-def test_rec_from_list():
-    # NOTE TESTING PASS
-    # NOTE OLD - Deprecated, do not use
-    id1 = "ChIJdedaLk5d1moRQOX0CXZWBB0"
-    id2 = "ChIJczgQh8lC1moR9r9gP44FRvY"
-    gmaps = get_gmaps()
-    dfLoc = get_df_loc()
-    rec_from_list(gmaps, id1, id2, dfLoc)
 
 def test_search_gmap_at_latlon():
     # NOTE: Testing pass
@@ -26,7 +17,7 @@ def test_search_list_at_latlon():
     # NOTE: Testing Pass
     target_lat_lon = (-37.81493625, 144.96061525)
     # rectype = 'eat'  # NOTE: Rectype different for built in vs gmaps
-    dfLoc = get_df_loc()
+    dfLoc = get_df_loc(cfg)
     test_result = rec_search_list_at_latlon(dfLoc, target_lat_lon, rectype='eat')
     print(test_result)
 
@@ -44,5 +35,5 @@ def test_get_best_recs():
     print(test_result)
 
 if __name__ == "__main__":
-    # test_search_list_at_latlon()
+    test_search_list_at_latlon()
     test_get_best_recs()
