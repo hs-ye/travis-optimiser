@@ -15,6 +15,10 @@ Response format (json):
 {"33":"ChIJ9RT5wLRC1moRpIkhaxraJMc","37":"ChIJcxVwKrVC1moRcHnRJ0dR5vM"}
 
 - responses generally should be list of 5, unless places cannot be found
+- to check a id, use https://maps.googleapis.com/maps/api/place/details/json?key=<>&place_id=<>
+    - key=<> add your gmaps api key
+    - place_id=<> insert the id that was returned
+
 
 Curl test (status test):
 curl -X GET -k -H 'ids: ["ChIJczgQh8lC1moR9r9gP44FRvY", "ChIJdedaLk5d1moRQOX0CXZWBB0"]' -i 'https://asia-east2-travis-mvp-v2.cloudfunctions.net/travis-recommender'
