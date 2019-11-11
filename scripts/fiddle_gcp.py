@@ -3,15 +3,20 @@ from os import listdir
 from os.path import isfile, join
 
 bucket_name = "travis_recommender"
-bucket_folder = "csv_data\\"  # doesn't work cos gcp is unix
-bucket_folder = "csv_data/"  # the correct way for unix
-file_name = "locations_recommender.csv"
-credentials="" # inesrt Gmaps api key here
 project = "travis-test-01"
+# bucket_folder = "csv_data\\"  # doesn't work cos gcp is unix
+bucket_folder = "csv_data/"  # the correct way for unix
 json_keyfile = 'Travis-test-01-35fea3db5a86.json'
+
+project = "travis-mvp-v2"
+bucket_name = "travis-recommender"
+json_keyfile = 'travis-mvp-v2-e0585f74ee98.json'
 storage_client = storage.Client.from_service_account_json(json_keyfile)
 
 bucket = storage_client.get_bucket(bucket_name)  # now it will create bucket obj
+file_name = "locations_recommender.csv"
+
+credentials="" # inesrt Gmaps api key here
 
 local_folder = "travis_optimiser\\test_data\\"
 def upload_files(bucket_name, bucket, local_folder):
