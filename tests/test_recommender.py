@@ -35,5 +35,5 @@ def test_get_best_recs():
     print(test_result)
 
 if __name__ == "__main__":
-    test_search_list_at_latlon()
+    # test_search_list_at_latlon()
     test_get_best_recs()

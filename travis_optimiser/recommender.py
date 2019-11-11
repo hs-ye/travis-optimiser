@@ -50,7 +50,7 @@ def get_best_recs(gmaps, input_gpids: List[str], rectype: str, cfg: Dict, reclim
         - expanding the search radius and seeing how far away it is
         - calling the google api to get a 'new' item
         - saving new items to the list 
-    NOTE: WIP, only does the existing recommendations for time being
+    # TODO: Implement actual recommendation engine on top of results found
     '''
     # if isinstance(cfg, type(None)):
         # cfg = utilities.get_cfg()
@@ -62,32 +62,37 @@ def get_best_recs(gmaps, input_gpids: List[str], rectype: str, cfg: Dict, reclim
     elif num_locations == 2:
         target_lat_lon = utilities.calc_midpoint_of_gpids(gmaps, input_gpids)
 
-    rec_results = rec_search_list_at_latlon(dfLoc, target_lat_lon, rectype='eat')
-    # NOTE: rectype for searching at list is different for searching at latlon
+    rec_results = rec_search_list_at_latlon(dfLoc, target_lat_lon, rectype='eat')  # NOTE: rectype for searching at list is different for searching at latlon
 
-    if len(rec_results) < 5:
+    num_new = 5 - len(rec_results)
+    if num_new > 0:
         new_results = rec_search_gmaps_at_latlon(gmaps, target_lat_lon, rectype='restaurant')
-        rec_results = append_and_update_new_poi_results(rec_results, new_results)
-        # TODO: 
-        # set operation to remove existing gpids
-        # re-ranking of new options (could be based on 'real' recommender in future)
-        # add the new ones to the old ones, save to DF
-        # return to the main list
+        rec_results = append_and_update_new_poi_results(rec_results, new_results, num_new)
     
     return rec_results
 
-def append_and_update_new_poi_results(rec_results, new_results) -> pd.core.frame.DataFrame:
+def append_and_update_new_poi_results(rec_results, new_results, n_results: int) -> pd.core.frame.DataFrame:
     """ Performs cleaning then combines the results from existing and new
     adds any new search results to db as required
-    TODO: implement
+    inputs: rec_result is a series, new_results is a dataframe
+    outputs: a pd series, for consistency
+    # TODO: 
+        # set operation to remove existing gpids
+        # re-ranking of new options (i.e. based on 'real' recommender, in future)
+        # add the new ones to the old ones, save to DF
+        # return to the main list
     """
-    cleaned_new_results = new_results  # TODO: implement this
-    update_poi_data(cleaned_new_results,method=cfg['backend'])
-    return rec_results
+    new_results = new_results.head(n_results)
+    cleaned_new_results = new_results.gpid
+    # update_poi_data(cleaned_new_results,method=cfg['backend'])
+    results = pd.concat([rec_results, cleaned_new_results])
+    return results
 
 def rec_search_list_at_latlon(dfLoc, target_lat_lon: Tuple[float], rectype: str,
-        reclimit=5, radius=500) -> pd.core.frame.DataFrame:
-    """ Searches existing list for items"""
+        reclimit=5, radius=500) -> pd.core.series.Series:
+    """ Searches existing list for items
+    returns: pd series of gpids only
+    """
     dfLoc = dfLoc[dfLoc.Category.str.lower()==rectype]  # filter for lower only
     
     lat, lon = target_lat_lon
@@ -109,7 +114,7 @@ def rec_search_gmaps_at_latlon(gmaps, target_lat_lon: Tuple[float], rectype: str
     new_places = gmaps.places_nearby(location=target_lat_lon, radius=radius, type='restaurant',
             rank_by='prominence')  # note that 'prominence' is a google term for popularity
     dfNewplaces = convert_gmaps_search_result_string_to_df(new_places)
-
+    dfNewplaces.sort_values('rating', ascending=False, inplace=True)
     return dfNewplaces
 
 def convert_gmaps_search_result_string_to_df(result_string: str) -> pd.core.frame.DataFrame:
