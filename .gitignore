@@ -1,9 +1,9 @@
 #
 .vscode/
-pandas/
-*.pyc
 .vscode/settings.json
+pandas/
+scripts/
 *.pyc
 *config.yml
-.vscode/settings.json
 Travis-test-01-35fea3db5a86.json
+travis-mvp-v2-e0585f74ee98.json
