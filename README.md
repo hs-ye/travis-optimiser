@@ -23,11 +23,11 @@ Response format (json):
 Curl test (status test):
 curl -X GET -k -H 'ids: ["ChIJczgQh8lC1moR9r9gP44FRvY", "ChIJdedaLk5d1moRQOX0CXZWBB0"]' -i 'https://asia-east2-travis-mvp-v2.cloudfunctions.net/travis-recommender'
 
-- Flat file location: Stored on a GCP Cloud Storage bucket, see config.yml (not published to github)
 
-# To do list:
+# DONE list
+- Flat file location: Stored on a GCP Cloud Storage bucket, see config.yml (not published to github)
 - Add google search for different types of establishments, in an area
-- Add single radius search
+- Add single radius search 
 
 - Add controller for search, that 
     - check if search is single radius or between two locations
@@ -35,8 +35,8 @@ curl -X GET -k -H 'ids: ["ChIJczgQh8lC1moR9r9gP44FRvY", "ChIJdedaLk5d1moRQOX0CXZ
 
 - Deploy to google cloud functions - DONE
     - Modify storage location to a GCP cloud storage filepath - DONE
-    - Update IAM Authorisation
-
+# To do list:
+- Update IAM Authorisation
 - Content based recommender that classifies restaurants by type
 - Create a list of types of restaurants, for recommendation
 - System that links to accounts
