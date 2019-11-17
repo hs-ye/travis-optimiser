@@ -72,7 +72,7 @@ def api_recommend_from_file():
     recs = rec_from_list(gmaps, id1, id2, dfLoc)  # default finds 'eat' places within 500m
     return jsonify(recs.to_dict())
 
-@app.route("/api_get_recs_eats"):
+@app.route("/api_get_recs_eats")
 def api_get_recs_eats():
     headers = json.loads(request.headers.get('ids'))
     print(headers)

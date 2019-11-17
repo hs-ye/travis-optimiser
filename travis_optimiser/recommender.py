@@ -9,9 +9,11 @@ This model doesn't require any of the ML libraries, pure content matrix approach
 import pandas as pd
 import numpy as np
 import googlemaps
+import os
+from google.cloud import storage
 from utils import utilities
-from typing import List, Tuple
-from travis_optimiser.recommender_data import get_df_loc, update_poi_data
+from typing import List, Tuple, Dict
+# from travis_optimiser.recommender_data import get_df_loc, update_poi_data  # defined in body
 # -- # pre-processing & pipelines
 # from sklearn.decomposition import PCA, KernelPCA
 # from sklearn.pipeline import Pipeline
@@ -22,6 +24,11 @@ from travis_optimiser.recommender_data import get_df_loc, update_poi_data
 # from sklearn.metrics import mean_squared_log_error as msle
 
 cfg = utilities.get_cfg()
+json_keyfile = cfg['data_gcp']['json_key']
+bucket_name = cfg['data_gcp']['bucket']
+project = cfg['data_gcp']['project']
+storage_client = storage.Client.from_service_account_json(json_keyfile)
+bucket = storage_client.get_bucket(bucket_name)  # now it will create bucket obj
 
 """ Model purpose
 Using an input matrix of 2 chosen locations, rank all possible location vectors
@@ -34,7 +41,7 @@ def get_gmaps(key=cfg['google_key']):
     gmaps = googlemaps.Client(key=key)
     return gmaps
 
-def get_best_recs(gmaps, input_gpids: List[str], rectype: str, reclimit=5,
+def get_best_recs(gmaps, input_gpids: List[str], rectype: str, cfg: Dict, reclimit=5,
         radius=500) -> pd.core.frame.DataFrame:
     ''' main recommender controller function, will try to return top recommendatoins
     Should handle various scenarios:
@@ -45,10 +52,12 @@ def get_best_recs(gmaps, input_gpids: List[str], rectype: str, reclimit=5,
         - saving new items to the list 
     NOTE: WIP, only does the existing recommendations for time being
     '''
-    dfLoc = get_df_loc()  # get the list of existing POIs known to the recommender
+    if isinstance(cfg, type(None)):
+        cfg = utilities.get_cfg()
+    dfLoc = get_df_loc(method=cfg['backend'])  # get the list of existing POIs known to the recommender
     num_locations = len(input_gpids)
     if num_locations == 1:    
-        target_lat_lon = get_latlong_from_gpid(gmaps, input_gpids[0])
+        target_lat_lon = utilities.get_latlong_from_gpid(gmaps, input_gpids[0])
     
     elif num_locations == 2:
         target_lat_lon = utilities.calc_midpoint_of_gpids(gmaps, input_gpids)
@@ -161,14 +170,56 @@ def rec_from_list(gmaps, id1, id2, dfLoc, rectype='eat', reclimit=5, radius=500
 
     return dfRec.gpid  # gets the top 5 ids
 
-def rec_search_at_latlon_point(lat: float, lon: float, radius: int):
-    """ Given a single point, search in a radius
+
+def get_df_loc(method='local'):
     """
-    # NOTE WIP
-    return lat + lon + radius
+    obtains the recommender data as a dataframe, used for getting the current
+    copy of the data
+    method: local or gcp
+    returns: DataFrame of location data avaliable
+    """
+    if method == 'local':
+        dfLoc = load_data_from_local()
+    elif method == 'gcp':
+        dfLoc = load_data_from_gcp_cloud(cfg)
+    else:
+        print(f'error - non supported method: {method}')
+    return dfLoc
 
+def update_poi_data(update_data, method='local'):
+    """
+    TODO WIP function
+    Updates the existing data of POIs used by recommender, depending on the option used
+    """
+    if method == 'local':
+        dfLoc = update_data_to_local()
+    
+    print('POI data in {} updated'.format(method))
 
+def load_data_from_local():
+    # read data
+    # 
+    folder = 'travis_optimiser\\test_data'  #  PC
+    # folder = 'travis_optimiser/test_data'  # MAC
+    outfile = 'locations_recommender.csv'
+    dfLoc = pd.read_csv(os.path.join(folder, outfile), encoding='UTF-8')
+    return dfLoc
 
+def load_data_from_gcp_cloud(cfg):
+    # TODO Remove hardcoding
+    bucket_folder = "csv_data/"  # the correct way for unix
+    file = "locations_recommender.csv"
+    blob = bucket.blob(bucket_folder + file)
+    filename = blob.name.split('/')[-1]
+    local_folder = "scripts"
+    dl_path = os.path.join(local_folder, filename)
+    blob.download_to_filename(dl_path)
+    print(f'{filename} downloaded from bucket.')
+    dfLoc = pd.read_csv(dl_path, encoding='UTF-8')
+    return dfLoc
+
+def update_data_to_local():
+    pass
 
 
 if __name__ == "__main__":
