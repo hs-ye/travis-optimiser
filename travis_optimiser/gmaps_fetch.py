@@ -13,10 +13,12 @@ import googlemaps
 import json
 import os
 import pickle
+from utils.utilities import get_cfg
 
+cfg = get_cfg()
+key = cfg['google_key']
 # setup gmaps object  
-# TODO should wrap all this data in a class and pass in params
-gmaps = googlemaps.Client(key='AIzaSyBrY7HAvOgb8NHhW-mir7CQERHER8saC28')
+gmaps = googlemaps.Client(key=key)
 mel_loc = (-37.8132, 144.965)  # centre of search radius
 folder = 'travis_optimiser\\test_data'
 infile = 'locations.csv'

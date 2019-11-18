@@ -74,7 +74,9 @@ def get_best_recs(gmaps, input_gpids: List[str], rectype: str, cfg: Dict, reclim
 def append_and_update_new_poi_results(rec_results, new_results, n_results: int) -> pd.core.frame.DataFrame:
     """ Performs cleaning then combines the results from existing and new
     adds any new search results to db as required
-    inputs: rec_result is a series, new_results is a dataframe
+    inputs: 
+        rec_result is a series
+        new_results is a dataframe
     outputs: a pd series, for consistency
     # TODO: 
         # set operation to remove existing gpids
@@ -84,7 +86,7 @@ def append_and_update_new_poi_results(rec_results, new_results, n_results: int) 
     """
     new_results = new_results.head(n_results)
     cleaned_new_results = new_results.gpid
-    # update_poi_data(cleaned_new_results,method=cfg['backend'])
+    update_poi_data(cleaned_new_results, method=cfg['backend'])
     results = pd.concat([rec_results, cleaned_new_results])
     return results
 
