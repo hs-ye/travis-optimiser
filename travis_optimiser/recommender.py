@@ -13,7 +13,7 @@ import os
 from google.cloud import storage
 from utils import utilities
 from typing import List, Tuple, Dict
-from travis_optimiser.recommender_data import get_df_loc, update_poi_data 
+from travis_optimiser.recommender_data import get_df_loc, update_poi_data, RecData
 # -- # pre-processing & pipelines
 # from sklearn.decomposition import PCA, KernelPCA
 # from sklearn.pipeline import Pipeline
