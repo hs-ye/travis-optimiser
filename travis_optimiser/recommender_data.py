@@ -12,12 +12,13 @@ Module for Management of the backend data needed for the recommender
 """
 
 class RecData:
+
     def __init__(self, cfg_file="config.yml"):
         self.cfg = get_cfg(cfg_file)
         self.method = self.cfg['backend']
         # setup cloud drive if needed
         if self.method == 'gcp':
-            gs_token = self.cfg['data_gcp']['json_key']
+            gs_token = self.cfg['data_gcp']['json_key'] if self.cfg['gcp_local_auth'] == 1 else None
             self.gcs_fs = gcsfs.GCSFileSystem(project='my-project', token=gs_token)
         self.dfLoc = None  # placeholder for existing data, but doesn't add it yet
         self.new_data = None  # placeholder for new data coming in
@@ -44,23 +45,10 @@ class RecData:
         else:
             raise KeyError(f'error - non supported method: {self.method}')
         
-        print(f'loaded data from {self.method}')
+        print(f'loaded existing data from {self.method} into rec_data')
         self.dfLoc = dfLoc
         
         return dfLoc
-
-    def update_poi_data(self, update_data, method='local'):
-        """
-        inputs:
-            update_data: pd Dataframe
-        Updates the existing data of POIs used by recommender, depending on the option used
-        """
-        if method == 'local':
-            self.update_data_to_local()
-        elif method == 'gcp':
-            self.update_data_to_gcp()
-        
-        print('POI data in {} updated'.format(method))
 
     def load_data_from_local(self):
         # read data
@@ -92,9 +80,32 @@ class RecData:
             print(f'{file} downloaded from ' + f'{bucket}.')
         return dfLoc
 
-    def remove_duplicates_from_new(self):
+    def remove_duplicates_from_new(self, new_results: pd.core.frame.DataFrame) -> pd.core.frame.DataFrame:
+        """What the function name says"""
+        df_deduped = pd.DataFrame(columns=new_results.columns)
+        for index, row in new_results.iterrows():
+            # gpid_exists = self.dfLoc.gpid.str.contains('ChIJT').any():
+            gpid_exists = self.dfLoc.gpid.str.contains(row.gpid).any()
+            if not gpid_exists:
+                df_deduped = df_deduped.append(row)
+        return df_deduped
+
+                
+
+
+    def write_new_poi_data(self, update_data):
+        """
+        inputs:
+            update_data: pd Dataframe
+        Updates the existing data of POIs used by recommender, depending on the option used
+        """
+        method = self.cfg['backend']
+        if method == 'local':
+            self.update_data_to_local()
+        elif method == 'gcp':
+            self.update_data_to_gcp()
         
-        pass
+        print('POI data in {} updated'.format(method))
 
     def update_data_to_local(self):
         pass

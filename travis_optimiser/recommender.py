@@ -71,15 +71,15 @@ def get_best_recs(gmaps, input_gpids: List[str], rectype: str, cfg_file: str, re
     num_new = 5 - len(rec_results)
     if num_new > 0:
         new_results = rec_search_gmaps_at_latlon(gmaps, target_lat_lon, rectype='restaurant')
-        rec_results = append_and_update_new_poi_results(rec_results, new_results, rec_data, num_new)
+        rec_results = recommend_and_update_new_poi_results(rec_results, new_results, rec_data, num_new)
     
     return rec_results
 
-def append_and_update_new_poi_results(rec_results, new_results, rec_data: RecData, n_results: int) -> pd.core.frame.DataFrame:
+def recommend_and_update_new_poi_results(rec_results, new_results, rec_data: RecData, n_results: int) -> pd.core.frame.DataFrame:
     """ Performs cleaning then combines the results from existing and new
     adds any new search results to db as required
     inputs: 
-        rec_result is a series
+        rec_result is a series of GPIDs from existing locations
         new_results is a dataframe
     outputs: a pd series, for consistency
     # TODO: 
@@ -88,10 +88,15 @@ def append_and_update_new_poi_results(rec_results, new_results, rec_data: RecDat
         # add the new ones to the old ones, save to DF
         # return to the main list
     """
+    # TODO: de-dupe any search results from here
+    new_results = rec_data.remove_duplicates_from_new(new_results)
+    # TODO: Optimise recs using recommender (TBD) here, before deciding which to go with
     new_results = new_results.head(n_results)
-    cleaned_new_results = new_results.gpid
-    rec_data.update_poi_data(cleaned_new_results, method=cfg['backend'])
-    results = pd.concat([rec_results, cleaned_new_results])
+    # TODO: write new poi to list of known places (they will be what's recommended)
+    rec_data.write_new_poi_data(new_results)
+
+    new_res_gpids = new_results.gpid
+    results = pd.concat([rec_results, new_res_gpids])
     return results
 
 def rec_search_list_at_latlon(dfLoc, target_lat_lon: Tuple[float], rectype: str,
