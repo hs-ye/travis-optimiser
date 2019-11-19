@@ -17,7 +17,7 @@ def run_recommender(request):
     """
     headers = json.loads(request.headers.get('ids'))
     print(headers)
-    cfg = get_cfg()
+    # cfg = get_cfg()
     gmaps = get_gmaps()
-    recs = get_best_recs(gmaps, headers, rectype='restaurant', cfg=cfg)
+    recs = get_best_recs(gmaps, headers, rectype='restaurant', cfg_file='config.yml')
     return recs.to_json()

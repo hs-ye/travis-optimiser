@@ -1,15 +1,20 @@
 # instructions: save this file as config.yml and add in required secret/keys, but don't commit that file
+# instructions: save this file as config.yml and add in required secret/keys, but don't commit this file
 recommender:  # main options for the recommender, if any
-    secret:   # secret key
-backend: gcp # which backend data to use
+    secret:  test # secret key
+backend: gcp # gcp or local
 data_local:  # options used for running a 'local' version of the recommender
-    folder_pc: travis_optimiser\test_data  #  PC
-    folder_unix: travis_optimiser/test_data  # MAC
+    module: travis_optimiser  #  level 1
+    folder: test_data  #  level 2
     data_file: locations_recommender.csv
+    folder_unix: travis_optimiser/test_data  # MAC  don't use this, use OS join instead
+    folder_pc: travis_optimiser\test_data  #  PC  don't use this, use OS join instead
+    header_file: locations_header.csv
 data_gcp:  # links to cloud store and other places
-    project:   # gcp project name
-    bucket:  # bucket location
-    folder:  # folder
-    data_file:  #  file to download
-    json_key:  # location of json service account api key file, currently hungy's bucket
-google_key:  #  google maps api key
+    project: travis-mvp-v2  # gcp project name - when deployed in same project should auto-authenticate
+    bucket: travis-recommender # bucket location
+    folder: csv_data  # folder
+    data_file: locations_recommender.csv  # file to download
+    header_file: locations_header.csv
+    json_key: travis-mvp-v2-e0585f74ee98.json  # location of json service account api key file, currently not used
+google_key:  # google maps api key

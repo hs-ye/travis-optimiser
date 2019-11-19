@@ -36,8 +36,9 @@ curl -X GET -k -H 'ids: ["ChIJczgQh8lC1moR9r9gP44FRvY", "ChIJdedaLk5d1moRQOX0CXZ
 - Deploy to google cloud functions - DONE
     - Modify storage location to a GCP cloud storage filepath - DONE
 # To do list:
+- Update data to cloud when user requests new data
 - Update IAM Authorisation
 - Content based recommender that classifies restaurants by type
 - Create a list of types of restaurants, for recommendation
 - System that links to accounts
--
+- convert data management system to an object
