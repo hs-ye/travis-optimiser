@@ -13,7 +13,7 @@ import os
 from google.cloud import storage
 from utils import utilities
 from typing import List, Tuple, Dict
-from travis_optimiser.recommender_data import get_df_loc, update_poi_data, RecData
+from travis_optimiser.recommender_data import RecData
 # -- # pre-processing & pipelines
 # from sklearn.decomposition import PCA, KernelPCA
 # from sklearn.pipeline import Pipeline
@@ -37,24 +37,28 @@ Using an input matrix of 2 chosen locations, rank all possible location vectors
 
 """
 
+def get_rec_data():
+    return RecData()
+
 def get_gmaps(key=cfg['google_key']):
     gmaps = googlemaps.Client(key=key)
     return gmaps
 
-def get_best_recs(gmaps, input_gpids: List[str], rectype: str, cfg: Dict, reclimit=5,
+def get_best_recs(gmaps, input_gpids: List[str], rectype: str, cfg_file: str, reclimit=5,
         radius=500) -> pd.core.frame.DataFrame:
-    ''' main recommender controller function, will try to return top recommendatoins
-    Should handle various scenarios:
+    ''' main recommender controller function, tries to return top recommendatoins
+    handles various scenarios:
         - no items in location on the list
         - not enough items on the list (should be 5, or some other number)
-        - expanding the search radius and seeing how far away it is
         - calling the google api to get a 'new' item
         - saving new items to the list 
-    # TODO: Implement actual recommendation engine on top of results found
+    # TODO
+        - Implement actual recommendation engine on top of results found
+        - if none found, expanding the search radius and seeing how far away it is
     '''
-    # if isinstance(cfg, type(None)):
-        # cfg = utilities.get_cfg()
-    dfLoc = get_df_loc(cfg=cfg, method=cfg['backend'],)  # get the list of existing POIs known to the recommender
+    rec_data = RecData(cfg_file)  # creates instance of RecData API to hold data
+    dfLoc = rec_data.get_df_loc()  # get the list of existing POIs known to the recommender
+
     num_locations = len(input_gpids)
     if num_locations == 1:    
         target_lat_lon = utilities.get_latlong_from_gpid(gmaps, input_gpids[0])
@@ -67,11 +71,11 @@ def get_best_recs(gmaps, input_gpids: List[str], rectype: str, cfg: Dict, reclim
     num_new = 5 - len(rec_results)
     if num_new > 0:
         new_results = rec_search_gmaps_at_latlon(gmaps, target_lat_lon, rectype='restaurant')
-        rec_results = append_and_update_new_poi_results(rec_results, new_results, num_new)
+        rec_results = append_and_update_new_poi_results(rec_results, new_results, rec_data, num_new)
     
     return rec_results
 
-def append_and_update_new_poi_results(rec_results, new_results, n_results: int) -> pd.core.frame.DataFrame:
+def append_and_update_new_poi_results(rec_results, new_results, rec_data: RecData, n_results: int) -> pd.core.frame.DataFrame:
     """ Performs cleaning then combines the results from existing and new
     adds any new search results to db as required
     inputs: 
@@ -86,7 +90,7 @@ def append_and_update_new_poi_results(rec_results, new_results, n_results: int) 
     """
     new_results = new_results.head(n_results)
     cleaned_new_results = new_results.gpid
-    update_poi_data(cleaned_new_results, method=cfg['backend'])
+    rec_data.update_poi_data(cleaned_new_results, method=cfg['backend'])
     results = pd.concat([rec_results, cleaned_new_results])
     return results
 
