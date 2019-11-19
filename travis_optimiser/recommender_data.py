@@ -21,7 +21,7 @@ class RecData:
             gs_token = self.cfg['data_gcp']['json_key'] if self.cfg['gcp_local_auth'] == 1 else None
             self.gcs_fs = gcsfs.GCSFileSystem(project='my-project', token=gs_token)
         self.dfLoc = None  # placeholder for existing data, but doesn't add it yet
-        self.new_data = None  # placeholder for new data coming in
+        self.dfNew = None  # placeholder for new data coming in
 
 
         # not needed - manual way of connecting to gcs
@@ -90,26 +90,40 @@ class RecData:
                 df_deduped = df_deduped.append(row)
         return df_deduped
 
-                
-
-
-    def write_new_poi_data(self, update_data):
+    def write_new_poi_data(self, update_data: pd.core.frame.DataFrame) -> None:
         """
         inputs:
             update_data: pd Dataframe
         Updates the existing data of POIs used by recommender, depending on the option used
         """
+        self.dfNew = pd.concat([self.dfLoc, update_data], sort=False)
+        # self.dfLoc = None
+        # missing_cols = list(set(self.dfLoc.columns.to_list()) - set(update_data.columns.to_list()))
+
         method = self.cfg['backend']
         if method == 'local':
             self.update_data_to_local()
         elif method == 'gcp':
             self.update_data_to_gcp()
         
+        self.dfLoc = self.dfNew  # updates the dfLoc
         print('POI data in {} updated'.format(method))
 
     def update_data_to_local(self):
-        pass
+        module = self.cfg['data_local']['module']
+        folder = self.cfg['data_local']['folder']
+        file = self.cfg['data_local']['data_file']
+        out_path = os.path.join(module, folder, file)
+        self.dfNew.to_csv(out_path, index=False)
+        print('updated file saved to ' + f'{out_path}.')
 
     def update_data_to_gcp(self):
         # write updates to file
-        pass
+        bucket = self.cfg['data_gcp']['bucket']
+        folder = self.cfg['data_gcp']['folder']
+        file = self.cfg['data_gcp']['data_file']
+        out_path = bucket + '/' + folder + '/' + file  # folderpaths are in unix
+        with self.gcs_fs.open(out_path, 'w') as f:
+            self.dfNew.to_csv(f, index=False)
+            print('updated file uploaded to ' + f'{bucket}.')
+        

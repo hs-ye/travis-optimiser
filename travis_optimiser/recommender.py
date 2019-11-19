@@ -88,7 +88,6 @@ def recommend_and_update_new_poi_results(rec_results, new_results, rec_data: Rec
         # add the new ones to the old ones, save to DF
         # return to the main list
     """
-    # TODO: de-dupe any search results from here
     new_results = rec_data.remove_duplicates_from_new(new_results)
     # TODO: Optimise recs using recommender (TBD) here, before deciding which to go with
     new_results = new_results.head(n_results)
@@ -104,7 +103,7 @@ def rec_search_list_at_latlon(dfLoc, target_lat_lon: Tuple[float], rectype: str,
     """ Searches existing list for items
     returns: pd series of gpids only
     """
-    dfLoc = dfLoc[dfLoc.Category.str.lower()==rectype]  # filter for lower only
+    dfLoc = dfLoc[dfLoc.category.str.lower()==rectype]  # filter for lower case only
     
     lat, lon = target_lat_lon
     # note we are relying on numpy broadcasting for the following vector calc to work
@@ -129,6 +128,7 @@ def rec_search_gmaps_at_latlon(gmaps, target_lat_lon: Tuple[float], rectype: str
     return dfNewplaces
 
 def convert_gmaps_search_result_string_to_df(result_string: str) -> pd.core.frame.DataFrame:
+    # TODO: FIX Hardcoded columns and definitions here
     results = []
     for _ in result_string['results']:
         name = _['name']
@@ -137,19 +137,23 @@ def convert_gmaps_search_result_string_to_df(result_string: str) -> pd.core.fram
         place_id = _['place_id']
         try:  # not all places have a rating
             rating = _['rating']
-            user_ratings_total = _['user_ratings_total']
+            # user_ratings_total = _['user_ratings_total']
         except KeyError:
             rating = None
-            user_ratings_total = 0
+            # user_ratings_total = 0
         try:  # not all places have price-level info
             price_level = _['price_level']
         except KeyError:
             price_level = None
+        area = _['vicinity'].split()[-1]  # get last word
         address = _['vicinity']
-        results.append([name, lat, lng, place_id, rating, user_ratings_total, price_level, address,])
+        # results.append([name, lat, lng, place_id, rating, user_ratings_total, price_level, address,])
+        results.append([name, lat, lng, place_id, area, rating, price_level, address])
 
     dfResults = pd.DataFrame(results,
-        columns=["name", "lat", "lng", "gpid", "rating", "user_ratings_total", "price_level", "address",])
+        columns=["name", "lat", "lng", "gpid", "area", "rating", "price_range", "summary"])
+    dfResults['category'] = 'Eat'  # TODO Fix this hardcoding
+    dfResults['source'] = 'google'  # TODO Fix this hardcoding
     return dfResults
 
 
