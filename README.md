@@ -1,8 +1,5 @@
 # Travis Optimiser
 
-<<<<<<< HEAD
-# Done list:
-=======
 # Deployed via google cloud functions
 
 Endpoint: (GET)
@@ -29,7 +26,6 @@ curl -X GET -k -H 'ids: ["ChIJczgQh8lC1moR9r9gP44FRvY", "ChIJdedaLk5d1moRQOX0CXZ
 
 # DONE list
 - Flat file location: Stored on a GCP Cloud Storage bucket, see config.yml (not published to github)
->>>>>>> 7a5fac7e1f452cef6e21566302699431b4635600
 - Add google search for different types of establishments, in an area
 - Add single radius search 
 
@@ -37,25 +33,13 @@ curl -X GET -k -H 'ids: ["ChIJczgQh8lC1moR9r9gP44FRvY", "ChIJdedaLk5d1moRQOX0CXZ
     - check if search is single radius or between two locations
     - makes sure there are 5 results, and saves any additional searches to the csv file
 
-<<<<<<< HEAD
-- Deploy to google cloud functions
-    - Modify storage location to a GCP cloud storage filepath
-- Update data to cloud when user requests new data
-
-# To do list:
-- Update IAM Authorisation
-- Content based recommender that classifies restaurants by type
-- Create a list of types of restaurants, for recommendation
-- Recommender Training
-- account level personalsation
-=======
 - Deploy to google cloud functions - DONE
     - Modify storage location to a GCP cloud storage filepath - DONE
+- Update IAM Authorisation - Should be Automatic when called from within gcp 
+
 # To do list:
 - Update data to cloud when user requests new data
-- Update IAM Authorisation
 - Content based recommender that classifies restaurants by type
 - Create a list of types of restaurants, for recommendation
 - System that links to accounts
 - convert data management system to an object
->>>>>>> 7a5fac7e1f452cef6e21566302699431b4635600
