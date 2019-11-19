@@ -1,7 +1,8 @@
 # Function dependencies, for example:
 # package>=version
-pandas
-numpy
-googlemaps
-pyyaml
-google-cloud-storage
+pandas>=0.24.0
+numpy>=1.16.3
+googlemaps>=2.5.1
+pyyaml>=5.1.2
+google-cloud-storage>=1.20.0
+gcsfs>=0.3.1

@@ -2,8 +2,9 @@ import numpy as np
 import yaml
 from typing import List, Tuple
 
-def get_cfg():
-     with open("config.yml", 'r') as ymlfile:
+def get_cfg(file="config.yml"):
+     ''' Loads the chosen config file '''
+     with open(file, 'r') as ymlfile:
           cfg = yaml.load(ymlfile)
      
      return cfg
