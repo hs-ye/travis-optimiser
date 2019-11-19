@@ -18,14 +18,19 @@ class RecData:
         self.method = self.cfg['backend']
         # setup cloud drive if needed
         if self.method == 'gcp':
-            gs_token = self.cfg['data_gcp']['json_key'] if self.cfg['gcp_local_auth'] == 1 else None
-            self.gcs_fs = gcsfs.GCSFileSystem(project='my-project', token=gs_token)
-            # manual way of connecting to gcs
-
-            bucket_name = self.cfg['data_gcp']['bucket']
             project = self.cfg['data_gcp']['project']
-            self.storage_client = storage.Client.from_service_account_json(gs_token)
-            self.bucket = self.storage_client.get_bucket(bucket_name)  # now it will create bucket obj
+            bucket_name = self.cfg['data_gcp']['bucket']
+            if self.cfg['gcp_local_auth'] == 1:  # running on local
+                gs_token = self.cfg['data_gcp']['json_key']
+                self.gcs_fs = gcsfs.GCSFileSystem(project=project, token=gs_token)
+                self.storage_client = storage.Client.from_service_account_json(gs_token)
+                self.bucket = self.storage_client.get_bucket(bucket_name)  # now it will create bucket obj
+            else:  # running on native gc
+                self.storage_client = storage.Client()
+                self.bucket = self.storage_client.get_bucket(bucket_name)  # now it will create bucket obj
+                self.gcs_fs = gcsfs.GCSFileSystem(project=project)
+
+            # manual way of connecting to gcs
             # blob = bucket.blob(bucket_folder + file)
         self.dfLoc = None  # placeholder for existing data, but doesn't add it yet
         self.dfNew = None  # placeholder for new data coming in

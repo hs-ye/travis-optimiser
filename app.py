@@ -76,7 +76,7 @@ def api_recommend_from_file():
 def api_get_recs_eats():
     headers = json.loads(request.headers.get('ids'))
     print(headers)
-    recs = get_best_recs(gmaps, headers, 'restaurant', cfg)
+    recs = get_best_recs(gmaps, headers, rectype='restaurant', cfg_file='config.yml')
     return jsonify(recs.to_dict())
 
 
