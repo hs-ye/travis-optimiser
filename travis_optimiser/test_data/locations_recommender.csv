@@ -1,83 +1,50 @@
 name,hours,summary,category,area,price_range,gpid,lat,lng,rating,source,nightlife,cafe ,breakfast,lunch,dinner,pubsbars,modern,family,asian,mediterranean,american
-Market Lane Coffee,Mon-Fri: 7am-5pm,For you coffee snobs out there,Drink,CBD,2,ChIJT-tyjjRd1moRqeXlykOTVQc,-37.8066544,144.959104,4.4,travis,,,,,,,,,,,
-Flinders St Station,All day,A historic cultural landmark of Melbourne,See,CBD,0,ChIJSSKDr7ZC1moRTsSnSV5BnuM,-37.8182711,144.9670618,4.3,travis,,,,,,,,,,,
-QV Market,"Tues: 6am-2pm
-Fri: 6am-5pm
-Sat: 6am-3pm
-Sun: 9am-4pm","Cheese samples, deli meats, fresh fruit and everything in between, perfect for a picnic",See,CBD,0,ChIJsVeQNzRd1moRUNQyBXZWBA8,-37.8075798,144.956785,4.4,travis,,,,,,,,,,,
-Lune Croissantarie - Fitzroy,"7:30am-3pm (Mon - Fri)
-8am-3pm (Sat, Sun)","Best croissants outside of Paris, in a concrete and glass warehouse",Eat,Fitzroy,2,ChIJ1zV4U_Zo1moR9MXOJ461Jd0,-37.7959659,144.9799313,4.5,travis,,,,,,,,,,,
-Yarra Valley Dairy,Mon-Sun: 10:30am-5pm,"Award-winning fresh, soft Italian and French style cheeses",Do,Yarra Valley,2,ChIJIYjpV7ks1moR9egFHEb7Qh4,-37.6867971,145.3873228,3.7,travis,,,,,,,,,,,
-Tall Timber,"Mon, Thurs, Sat & Sun: 7:30am-4pm
-Tues, Wed, Fri: 7am-4pm",Good Food. Good Coffee. Good People. A friendly café in Prahran to fulfil your every brunch need. Outdoor courtyard + plenty of seating for any sized group.,Eat,Prahran,2,ChIJLY1rhSNo1moRzqm_0sNkZno,-37.8462154,144.9881267,4.1,travis,,,,,,,,,,,
-Federation Square,All day,Melbourne's meeting point,Eat,CBD,0,ChIJT8T86bZC1moRqw7W6kVH5zg,-37.8179789,144.9690576,4.4,travis,,,,,,,,,,,
-Higher Ground,"Mon-Fri: 7am-4pm 
-Sat-Sun: 8am-4pm","Open all day for top breakfasts, brunches, and evening drinks",Eat,CBD,2,ChIJ-R8fAE9d1moR3yFuI2x1z00,-37.8159097,144.9530443,4.2,travis,,,,,,,,,,,
-Shrine of Remembrance,Mon-Sun: 10am-5pm,A monumental memorial to honour all Australians who served in the war,Do,Melbourne,0,ChIJGSSIDKZC1moRisWTaYaaq18,-37.8305164,144.9734319,4.7,travis,,,,,,,,,,,
-Eureka Skydeck + Edge,Mon-Sun: 10am-10pm,One of the best vantage points for a bird's eye view of Melbourne,Do,Southbank,1,ChIJQffkhK1C1moR3Z0-w-t8SS8,-37.8215648,144.964894,4.5,travis,,,,,,,,,,,
-Industry Beans Fitzroy,"Mon, Thurs, Sat & Sun: 8am-4pm
-Tues, Wed & Fri: 7am-4pm
-",Coffee and brunch,Drink,Fitzroy,2,ChIJ_7ffMiFD1moR5NCnlSFhECk,-37.7961525,144.9776118,4.4,travis,,,,,,,,,,,
-Old Melbourne Gaol,Mon-Sun: 9:30am-5pm,Where Melbourne's most dangerous criminals were housed from 1845-1924,Do,Melbourne,2,ChIJYUcwasxC1moResepeNQs7Z0,-37.807832,144.9653171,4.4,travis,,,,,,,,,,,
-Yering Station,"Mon-Fri: 10am-5pm
-Sat, Sun: 10am-6pm","Winery, wine-tasting and restaurant in Yarra Valley",Eat,Yarra Valley,2,ChIJfzLZ7LUs1moRXUBEIaLUiYQ,-37.6734502,145.3839517,4,travis,,,,,,,,,,,
-Four Pillars Gin,"Sun-Thurs: 10:30am-5:30pm
-Fri, Sat: 10:30am-9pm",Gin distillery for tastings and snacks,Eat,Yarra Valley,2,ChIJSZOukb4w1moRC_KrxBgNYV4,-37.6574208,145.5099177,4.6,travis,,,,,,,,,,,
-Stones of the Yarra Valley,"Mon-Sun: 12pm-3:30pm, 7pm onwards (Times vary)","Modern Australian tasting menus with matching wines, offered in a vintage farmhouse setting",Eat,Yarra Valley,2,ChIJ0RMxyVYr1moR2m6tM6XJ5ZU,-37.6908648,145.4068743,4.7,travis,,,,,,,,,,,
-Prahran Market,"Mon,Tues,Thurs-Sat: 7am-5pm
-Wed: Closed
-Sun: 10am-3pm","Foodie destination for local top produce, deli goods, gourmet items.",Do,Prahran,1,ChIJ08R9xSVo1moRyE4-ltkfD9o,-37.8463926,144.9918509,4.3,travis,,,,,,,,,,,
-Chapel St,All day,"Australian fashion and lifestyle boutiques, restaurants and bars",Do,South Yarra,0,ChIJfRrmZjpo1moRiY5-pC_L6F8,-37.8533581,144.9930877,,travis,,,,,,,,,,,
-St Kilda Esplanade Market,Sun: 10am-4pm,Sunday market with 140+ stalls selling a diverse selection of artwork & handmade items,Do,St Kilda,1,ChIJT9PZ9m9o1moR8PmC9s8vSvM,-37.865969,144.974298,4.3,travis,,,,,,,,,,,
-Fitzroy Gardens,All day,Discover the glasshouses and Conservatory at the Fitzroy Gardens,See,Fitzroy,0,ChIJX6ytzMNC1moREIYxBXZWBA8,-37.8127215,144.9800679,4.6,travis,,,,,,,,,,,
-State Library of Victoria,"Mon,Thurs,Fri-Sun: 10am-6pm
-Tues-Wed: 10am-9pm","Standing since 1854, a historical and architectural gem",See,CBD,0,ChIJ6RxLlctC1moReA6DqUtnh_E,-37.8098087,144.9651897,4.7,travis,,,,,,,,,,,
-Emporium,"Mon-Thurs, Sat-Sun:10am-7pm
-Fri: 10am-9pm",Australian and international fashion designers under one roof,See,CBD,0,ChIJe2e9iMpC1moROAFy3XgYaSM,-37.812182,144.9644399,4.4,travis,,,,,,,,,,,
-Matcha Mylkbar,"Mon-Fri: 8am-3pm
-Sat-Sun: 8am-4pm",Innovation plant-based cafe,Eat,St Kilda,2,ChIJuRUFiGZo1moR4nqIOKJPvkI,-37.8667891,144.9783188,3.9,travis,,,,,,,,,,,
-Gazi,Mon-Sun: 12pm-9:30pm,Greek comfort food with a contemporary twist,Eat,CBD,2,ChIJ1XYN_8dC1moRO_5TFowKeJk,-37.815675,144.9724672,4.2,travis,,,,,,,,,,,
-Melbourne Chinatown,All day,The central hub for all Asian food,See,CBD,0,ChIJczgQh8lC1moR9r9gP44FRvY,-37.8118271,144.9676346,4.2,travis,,,,,,,,,,,
-Hakata Gensuke QV,"Sun-Thurs: 11am-10pm
-Fri, Sat: 11am-1am","Japanese ramen institution, with chicken (not pork)",Eat,CBD,1,ChIJl8pZxstC1moRX6RL-HCr70A,-37.8109269,144.9661241,4.3,travis,,,,,,,,,,,
-Royal Melbourne Botanical Gardens,Mon-Sun: 7:30am-7:30pm,"Explore, immerse, and get lost within the Botanic Gardens",See,Southbank,0,ChIJO40p-5ZC1moRwNcxBXZWBA8,-37.8303689,144.9796056,4.8,travis,,,,,,,,,,,
-Hosier Lane,All day,Graffti laneways turned Instagrammable street art,See,CBD,0,ChIJFWocUrZC1moRDz6RTASZJqk,-37.8162759,144.969035,,travis,,,,,,,,,,,
-Flinders Lane,All day,"Take a good walk to find laneways, shops, bars and restaurants off Flinders Lane",See,CBD,0,ChIJHy3EerRC1moRM8Ni5wmW0qA,-37.8171831,144.9645822,,travis,,,,,,,,,,,
-Cibi,Mon-Sun: 8am-5pm,"Minimalist, wholesome Japanese food",Eat,Collingwood,2,ChIJG4Vz0x5D1moRbtvZbTs4bRU,-37.7972218,144.9861014,4.4,travis,,,,,,,,,,,
-Pidapipo Degraves St,12pm-11pm,Smooth gelato that packs a flavour punch,Eat,CBD,1,ChIJz3CXGrRC1moRFyTzC6U9i3I,-37.8175918,144.9660483,4.6,travis,,,,,,,,,,,
-Bentwood FItzroy,"Mon-Fri: 7am-4pm
-Sat, Sun: 7:30am-4pm",Cafe brunch in Fitzroy,Eat,Fitzroy,2,ChIJ6_sNdN9C1moR5zcuxFy0TXs,-37.800621,144.9801565,4,travis,,,,,,,,,,,
-Alimentari Smith St,"Sun-Mon: 8am-6pm
-Tues-Sat: 8am-10:30pm","Deli, grocer and eatery serving fresh produce",Eat,Fitzroy,2,ChIJtdwb7B9D1moRwAsVTpvFP58,-37.800136,144.984367,4.4,travis,,,,,,,,,,,
-National Gallery of Victoria,Mon-Sun: 10am-5pm,Australia's world-class art gallery,See,Southbank,2,ChIJuYNitLFC1moRVB5vMAKPcTM,-37.8225942,144.9689278,4.7,travis,,,,,,,,,,,
-Pentolina,Mon-Sun: 5pm-10pm,"Contemporary, authentic Italian pasta for a delicious low key evening",Eat,CBD,2,ChIJ9RT5wLRC1moRpIkhaxraJMc,-37.8157039,144.9623667,4.5,travis,,,,,,,,,,,
-The Australian Ballet,Mon-Fri: 9am-6pm,Classical and contemporary ballet performances,Do,Southbank,3,ChIJzSvV7LFC1moRVdlcgJ_XfYM,-37.8219683,144.9673189,4.3,travis,,,,,,,,,,,
-The Espy,"Mon: 12pm-11pm
-Tues-Thurs: 12pm-12am
-Fri-Sat: 11am-3am
-Sun: 11am-1am","Laid-back hangout at the waterfront with typical pub fare, cocktails & draft beer",Eat,St Kilda,2,ChIJZwv6MGVo1moRnQQHiuprVB0,-37.864182,144.9728393,4.3,travis,,,,,,,,,,,
-City Wine Shop,"Sun-Thurs: 7am-11pm
-Fri, Sat: 7am-12am",Fine wine and share plates at the top end of Melbnourne CBD,Drink,CBD,2,ChIJnfRB_sVC1moRcfEI8EUEKsY,-37.810945,144.972645,4.4,travis,,,,,,,,,,,
-Rice Paper Sister,"Sun-Thurs: 12–3pm; 5:30–10pm
-Fri, Sat: 12pm-11pm",Mod Australian with South East Asian influences,Eat,CBD,2,ChIJcxVwKrVC1moRcHnRJ0dR5vM,-37.8143138,144.9614038,4.5,travis,,,,,,,,,,,
-Kirk’s Wine Bar,"Mon-Fri: 7:30am-11pm
-Sat, Sun: 9am-11pm",Charming European bar for vino and people watching,Drink,CBD,2,ChIJ12Q0M7VC1moRdjoh--8GceA,-37.8136215,144.9612837,4.3,travis,,,,,,,,,,,
-Cutler & Co,"Tues-Sat: 5pm-12am
-Sun: 12pm-12am",Upscale Modern Australian fare and a tasting menu in an old metalworks factory with an open kitchen.,Eat,Fitzroy,3,ChIJI_PKDttC1moRpfu7sQfxfFM,-37.805421,144.97595,4.6,travis,,,,,,,,,,,
-Innocent Bystander,"Mon-Thurs: 11am-8pm
-Fri: 11am-9pm
-Sat, Sun: 10am-9pm","Contemporary winery, artisan pizzas, hearty meals in Yarra Valley",Eat,Yarra Valley,2,ChIJV9WnqSUqKGsRgTyuJ4MlDVE,-37.6520886,145.5222602,4,travis,,,,,,,,,,,
-Luna Park,"Sun-Wed: 11am-8pm
-Thurs: 1-11pm
-Fri-Sat: 11am-11pm",,Do,St Kilda,1,ChIJZ_cOG2Ro1moRQbFsJ6rXAL8,-37.8676792,144.9768664,4,travis,,,,,,,,,,,
-Sea Life Melbourne Aquarium,"Mon-Fri: 10am-5:30pm
-Sat-Sun: 9:30am-6pm",,Do,CBD,2,ChIJ_QzhcE1d1moR9rtoKagNPOI,-37.82064,144.958325,4.3,travis,,,,,,,,,,,
-Scienceworks,Mon-Sun: 10am-4:30pm,"Science and technology museum that features modern interactive exhibitions, the Melbourne Planetarium and the Lightning Room",Do,Spotswood,1,ChIJK-o8zD1n1moRrY94n9V-NLE,-37.8315562,144.8931816,4.4,travis,,,,,,,,,,,
-ACMI,Mon-Sun: 10am-5pm,,Do,CBD,2,ChIJT8T86bZC1moRpBiRUC3lABM,-37.8173892,144.9687219,4.6,travis,,,,,,,,,,,
-Phillip Island Penguin Parade,Mon-Sun: 10am-9:15pm,,Do,Phillip Island,2,ChIJW7bw6GeV1WoRJ-q-NvGxZZw,-38.5054198,145.1479727,4.3,travis,,,,,,,,,,,
-Degraves St,All day,"DEGRAVES ST
-Come here for a string of Italian cafes for brekky, and a cheeky little gelato fix at Pidapipo's. While you're there, wander over to Centre Place.
-
-Photo: @overlandtravellers @christian_04 @lipsa.patnaik | #travelwith #travelmelbourne #melbournetravel #melbourne #melbournetodo #melbourne_insta #visitmelbourne #melbournetouristguide",See,CBD,0,ChIJgYwiELRC1moRP1-ET_qZwsw,-37.8173376,144.9657921,,travis,,,,,,,,,,,
-Brighton Beach Houses,All day,,See,Brighton,0,ChIJp6JdQjRv1moRykDrdG6SJBE,-37.9177181,144.9866185,4.4,travis,,,,,,,,,,,
-Maha,,21 Bond Street,Eat,Melbourne,3,ChIJizFTarNC1moRjM6M4Z_OGAg,-37.8181541,144.9626785,4.5,google,,,,,,,,,,,
+Market Lane Coffee,Mon-Fri: 7am-5pm,For you coffee snobs out there,Drink,CBD,2.0,ChIJT-tyjjRd1moRqeXlykOTVQc,-37.8066544,144.959104,4.4,travis,,,,,,,,,,,
+Flinders St Station,All day,A historic cultural landmark of Melbourne,See,CBD,0.0,ChIJSSKDr7ZC1moRTsSnSV5BnuM,-37.818271100000004,144.9670618,4.3,travis,,,,,,,,,,,
+QV Market,Tues: 6am-2pmFri: 6am-5pmSat: 6am-3pmSun: 9am-4pm,"Cheese samples, deli meats, fresh fruit and everything in between, perfect for a picnic",See,CBD,0.0,ChIJsVeQNzRd1moRUNQyBXZWBA8,-37.80757979999999,144.956785,4.4,travis,,,,,,,,,,,
+Lune Croissantarie - Fitzroy,"7:30am-3pm (Mon - Fri)8am-3pm (Sat, Sun)","Best croissants outside of Paris, in a concrete and glass warehouse",Eat,Fitzroy,2.0,ChIJ1zV4U_Zo1moR9MXOJ461Jd0,-37.7959659,144.9799313,4.5,travis,,,,,,,,,,,
+Yarra Valley Dairy,Mon-Sun: 10:30am-5pm,"Award-winning fresh, soft Italian and French style cheeses",Do,Yarra Valley,2.0,ChIJIYjpV7ks1moR9egFHEb7Qh4,-37.6867971,145.38732280000002,3.7,travis,,,,,,,,,,,
+Tall Timber,"Mon, Thurs, Sat & Sun: 7:30am-4pmTues, Wed, Fri: 7am-4pm",Good Food. Good Coffee. Good People. A friendly café in Prahran to fulfil your every brunch need. Outdoor courtyard + plenty of seating for any sized group.,Eat,Prahran,2.0,ChIJLY1rhSNo1moRzqm_0sNkZno,-37.8462154,144.9881267,4.1,travis,,,,,,,,,,,
+Federation Square,All day,Melbourne's meeting point,Eat,CBD,0.0,ChIJT8T86bZC1moRqw7W6kVH5zg,-37.8179789,144.96905759999999,4.4,travis,,,,,,,,,,,
+Higher Ground,Mon-Fri: 7am-4pm Sat-Sun: 8am-4pm,"Open all day for top breakfasts, brunches, and evening drinks",Eat,CBD,2.0,ChIJ-R8fAE9d1moR3yFuI2x1z00,-37.8159097,144.95304430000002,4.2,travis,,,,,,,,,,,
+Shrine of Remembrance,Mon-Sun: 10am-5pm,A monumental memorial to honour all Australians who served in the war,Do,Melbourne,0.0,ChIJGSSIDKZC1moRisWTaYaaq18,-37.8305164,144.9734319,4.7,travis,,,,,,,,,,,
+Eureka Skydeck + Edge,Mon-Sun: 10am-10pm,One of the best vantage points for a bird's eye view of Melbourne,Do,Southbank,1.0,ChIJQffkhK1C1moR3Z0-w-t8SS8,-37.8215648,144.964894,4.5,travis,,,,,,,,,,,
+Industry Beans Fitzroy,"Mon, Thurs, Sat & Sun: 8am-4pmTues, Wed & Fri: 7am-4pm",Coffee and brunch,Drink,Fitzroy,2.0,ChIJ_7ffMiFD1moR5NCnlSFhECk,-37.796152500000005,144.9776118,4.4,travis,,,,,,,,,,,
+Old Melbourne Gaol,Mon-Sun: 9:30am-5pm,Where Melbourne's most dangerous criminals were housed from 1845-1924,Do,Melbourne,2.0,ChIJYUcwasxC1moResepeNQs7Z0,-37.807832,144.9653171,4.4,travis,,,,,,,,,,,
+Yering Station,"Mon-Fri: 10am-5pmSat, Sun: 10am-6pm","Winery, wine-tasting and restaurant in Yarra Valley",Eat,Yarra Valley,2.0,ChIJfzLZ7LUs1moRXUBEIaLUiYQ,-37.673450200000005,145.3839517,4.0,travis,,,,,,,,,,,
+Four Pillars Gin,"Sun-Thurs: 10:30am-5:30pmFri, Sat: 10:30am-9pm",Gin distillery for tastings and snacks,Eat,Yarra Valley,2.0,ChIJSZOukb4w1moRC_KrxBgNYV4,-37.6574208,145.5099177,4.6,travis,,,,,,,,,,,
+Stones of the Yarra Valley,"Mon-Sun: 12pm-3:30pm, 7pm onwards (Times vary)","Modern Australian tasting menus with matching wines, offered in a vintage farmhouse setting",Eat,Yarra Valley,2.0,ChIJ0RMxyVYr1moR2m6tM6XJ5ZU,-37.6908648,145.4068743,4.7,travis,,,,,,,,,,,
+Prahran Market,"Mon,Tues,Thurs-Sat: 7am-5pmWed: ClosedSun: 10am-3pm","Foodie destination for local top produce, deli goods, gourmet items.",Do,Prahran,1.0,ChIJ08R9xSVo1moRyE4-ltkfD9o,-37.8463926,144.9918509,4.3,travis,,,,,,,,,,,
+Chapel St,All day,"Australian fashion and lifestyle boutiques, restaurants and bars",Do,South Yarra,0.0,ChIJfRrmZjpo1moRiY5-pC_L6F8,-37.8533581,144.9930877,,travis,,,,,,,,,,,
+St Kilda Esplanade Market,Sun: 10am-4pm,Sunday market with 140+ stalls selling a diverse selection of artwork & handmade items,Do,St Kilda,1.0,ChIJT9PZ9m9o1moR8PmC9s8vSvM,-37.865969,144.974298,4.3,travis,,,,,,,,,,,
+Fitzroy Gardens,All day,Discover the glasshouses and Conservatory at the Fitzroy Gardens,See,Fitzroy,0.0,ChIJX6ytzMNC1moREIYxBXZWBA8,-37.8127215,144.9800679,4.6,travis,,,,,,,,,,,
+State Library of Victoria,"Mon,Thurs,Fri-Sun: 10am-6pmTues-Wed: 10am-9pm","Standing since 1854, a historical and architectural gem",See,CBD,0.0,ChIJ6RxLlctC1moReA6DqUtnh_E,-37.809808700000005,144.9651897,4.7,travis,,,,,,,,,,,
+Emporium,"Mon-Thurs, Sat-Sun:10am-7pmFri: 10am-9pm",Australian and international fashion designers under one roof,See,CBD,0.0,ChIJe2e9iMpC1moROAFy3XgYaSM,-37.812182,144.9644399,4.4,travis,,,,,,,,,,,
+Matcha Mylkbar,Mon-Fri: 8am-3pmSat-Sun: 8am-4pm,Innovation plant-based cafe,Eat,St Kilda,2.0,ChIJuRUFiGZo1moR4nqIOKJPvkI,-37.8667891,144.9783188,3.9,travis,,,,,,,,,,,
+Gazi,Mon-Sun: 12pm-9:30pm,Greek comfort food with a contemporary twist,Eat,CBD,2.0,ChIJ1XYN_8dC1moRO_5TFowKeJk,-37.815675,144.97246719999998,4.2,travis,,,,,,,,,,,
+Melbourne Chinatown,All day,The central hub for all Asian food,See,CBD,0.0,ChIJczgQh8lC1moR9r9gP44FRvY,-37.8118271,144.9676346,4.2,travis,,,,,,,,,,,
+Hakata Gensuke QV,"Sun-Thurs: 11am-10pmFri, Sat: 11am-1am","Japanese ramen institution, with chicken (not pork)",Eat,CBD,1.0,ChIJl8pZxstC1moRX6RL-HCr70A,-37.8109269,144.9661241,4.3,travis,,,,,,,,,,,
+Royal Melbourne Botanical Gardens,Mon-Sun: 7:30am-7:30pm,"Explore, immerse, and get lost within the Botanic Gardens",See,Southbank,0.0,ChIJO40p-5ZC1moRwNcxBXZWBA8,-37.8303689,144.97960559999999,4.8,travis,,,,,,,,,,,
+Hosier Lane,All day,Graffti laneways turned Instagrammable street art,See,CBD,0.0,ChIJFWocUrZC1moRDz6RTASZJqk,-37.816275899999994,144.96903500000002,,travis,,,,,,,,,,,
+Flinders Lane,All day,"Take a good walk to find laneways, shops, bars and restaurants off Flinders Lane",See,CBD,0.0,ChIJHy3EerRC1moRM8Ni5wmW0qA,-37.8171831,144.9645822,,travis,,,,,,,,,,,
+Cibi,Mon-Sun: 8am-5pm,"Minimalist, wholesome Japanese food",Eat,Collingwood,2.0,ChIJG4Vz0x5D1moRbtvZbTs4bRU,-37.7972218,144.9861014,4.4,travis,,,,,,,,,,,
+Pidapipo Degraves St,12pm-11pm,Smooth gelato that packs a flavour punch,Eat,CBD,1.0,ChIJz3CXGrRC1moRFyTzC6U9i3I,-37.817591799999995,144.9660483,4.6,travis,,,,,,,,,,,
+Bentwood FItzroy,"Mon-Fri: 7am-4pmSat, Sun: 7:30am-4pm",Cafe brunch in Fitzroy,Eat,Fitzroy,2.0,ChIJ6_sNdN9C1moR5zcuxFy0TXs,-37.800621,144.9801565,4.0,travis,,,,,,,,,,,
+Alimentari Smith St,Sun-Mon: 8am-6pmTues-Sat: 8am-10:30pm,"Deli, grocer and eatery serving fresh produce",Eat,Fitzroy,2.0,ChIJtdwb7B9D1moRwAsVTpvFP58,-37.800136,144.984367,4.4,travis,,,,,,,,,,,
+National Gallery of Victoria,Mon-Sun: 10am-5pm,Australia's world-class art gallery,See,Southbank,2.0,ChIJuYNitLFC1moRVB5vMAKPcTM,-37.822594200000005,144.96892780000002,4.7,travis,,,,,,,,,,,
+Pentolina,Mon-Sun: 5pm-10pm,"Contemporary, authentic Italian pasta for a delicious low key evening",Eat,CBD,2.0,ChIJ9RT5wLRC1moRpIkhaxraJMc,-37.815703899999995,144.9623667,4.5,travis,,,,,,,,,,,
+The Australian Ballet,Mon-Fri: 9am-6pm,Classical and contemporary ballet performances,Do,Southbank,3.0,ChIJzSvV7LFC1moRVdlcgJ_XfYM,-37.821968299999995,144.9673189,4.3,travis,,,,,,,,,,,
+The Espy,Mon: 12pm-11pmTues-Thurs: 12pm-12amFri-Sat: 11am-3amSun: 11am-1am,"Laid-back hangout at the waterfront with typical pub fare, cocktails & draft beer",Eat,St Kilda,2.0,ChIJZwv6MGVo1moRnQQHiuprVB0,-37.864182,144.9728393,4.3,travis,,,,,,,,,,,
+City Wine Shop,"Sun-Thurs: 7am-11pmFri, Sat: 7am-12am",Fine wine and share plates at the top end of Melbnourne CBD,Drink,CBD,2.0,ChIJnfRB_sVC1moRcfEI8EUEKsY,-37.810945000000004,144.972645,4.4,travis,,,,,,,,,,,
+Rice Paper Sister,"Sun-Thurs: 12–3pm; 5:30–10pmFri, Sat: 12pm-11pm",Mod Australian with South East Asian influences,Eat,CBD,2.0,ChIJcxVwKrVC1moRcHnRJ0dR5vM,-37.8143138,144.96140380000003,4.5,travis,,,,,,,,,,,
+Kirk’s Wine Bar,"Mon-Fri: 7:30am-11pmSat, Sun: 9am-11pm",Charming European bar for vino and people watching,Drink,CBD,2.0,ChIJ12Q0M7VC1moRdjoh--8GceA,-37.8136215,144.9612837,4.3,travis,,,,,,,,,,,
+Cutler & Co,Tues-Sat: 5pm-12amSun: 12pm-12am,Upscale Modern Australian fare and a tasting menu in an old metalworks factory with an open kitchen.,Eat,Fitzroy,3.0,ChIJI_PKDttC1moRpfu7sQfxfFM,-37.805421,144.97595,4.6,travis,,,,,,,,,,,
+Innocent Bystander,"Mon-Thurs: 11am-8pmFri: 11am-9pmSat, Sun: 10am-9pm","Contemporary winery, artisan pizzas, hearty meals in Yarra Valley",Eat,Yarra Valley,2.0,ChIJV9WnqSUqKGsRgTyuJ4MlDVE,-37.6520886,145.5222602,4.0,travis,,,,,,,,,,,
+Luna Park,Sun-Wed: 11am-8pmThurs: 1-11pmFri-Sat: 11am-11pm,,Do,St Kilda,1.0,ChIJZ_cOG2Ro1moRQbFsJ6rXAL8,-37.867679200000005,144.9768664,4.0,travis,,,,,,,,,,,
+Sea Life Melbourne Aquarium,Mon-Fri: 10am-5:30pmSat-Sun: 9:30am-6pm,,Do,CBD,2.0,ChIJ_QzhcE1d1moR9rtoKagNPOI,-37.820640000000004,144.958325,4.3,travis,,,,,,,,,,,
+Scienceworks,Mon-Sun: 10am-4:30pm,"Science and technology museum that features modern interactive exhibitions, the Melbourne Planetarium and the Lightning Room",Do,Spotswood,1.0,ChIJK-o8zD1n1moRrY94n9V-NLE,-37.8315562,144.8931816,4.4,travis,,,,,,,,,,,
+ACMI,Mon-Sun: 10am-5pm,,Do,CBD,2.0,ChIJT8T86bZC1moRpBiRUC3lABM,-37.81738920000001,144.9687219,4.6,travis,,,,,,,,,,,
+Phillip Island Penguin Parade,Mon-Sun: 10am-9:15pm,,Do,Phillip Island,2.0,ChIJW7bw6GeV1WoRJ-q-NvGxZZw,-38.5054198,145.1479727,4.3,travis,,,,,,,,,,,
+Degraves St,All day,"DEGRAVES STCome here for a string of Italian cafes for brekky, and a cheeky little gelato fix at Pidapipo's. While you're there, wander over to Centre Place.",See,CBD,0.0,ChIJgYwiELRC1moRP1-ET_qZwsw,-37.8173376,144.9657921,,travis,,,,,,,,,,,
+Brighton Beach Houses,All day,,See,Brighton,0.0,ChIJp6JdQjRv1moRykDrdG6SJBE,-37.9177181,144.9866185,4.4,travis,,,,,,,,,,,
+Maha,,21 Bond Street,Eat,Melbourne,3.0,ChIJizFTarNC1moRjM6M4Z_OGAg,-37.8181541,144.96267849999998,4.5,google,,,,,,,,,,,

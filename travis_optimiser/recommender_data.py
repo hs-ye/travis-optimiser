@@ -20,16 +20,23 @@ class RecData:
         if self.method == 'gcp':
             gs_token = self.cfg['data_gcp']['json_key'] if self.cfg['gcp_local_auth'] == 1 else None
             self.gcs_fs = gcsfs.GCSFileSystem(project='my-project', token=gs_token)
+            # manual way of connecting to gcs
+
+            bucket_name = self.cfg['data_gcp']['bucket']
+            project = self.cfg['data_gcp']['project']
+            self.storage_client = storage.Client.from_service_account_json(gs_token)
+            self.bucket = self.storage_client.get_bucket(bucket_name)  # now it will create bucket obj
+            # blob = bucket.blob(bucket_folder + file)
         self.dfLoc = None  # placeholder for existing data, but doesn't add it yet
         self.dfNew = None  # placeholder for new data coming in
 
 
-        # not needed - manual way of connecting to gcs
-        # json_keyfile = self.cfg['data_gcp']['json_key']
-        # bucket_name = self.cfg['data_gcp']['bucket']
-        # project = self.cfg['data_gcp']['project']
-        # self.storage_client = storage.Client.from_service_account_json(json_keyfile)
-        # self.bucket = self.storage_client.get_bucket(bucket_name)  # now it will create bucket obj
+        # filename = blob.name.split('/')[-1]
+        # local_folder = "scripts"
+        # dl_path = os.path.join(local_folder, filename)
+        # blob.download_to_filename(dl_path)
+
+
 
     def get_df_loc(self) -> pd.core.frame.DataFrame:
         """
@@ -69,11 +76,6 @@ class RecData:
 
         # path = os.path.join(bucket, folder, file)  # folderpaths are in unix, this won't work if running on windows machine
         path = bucket + '/' + folder + '/' + file  # folderpaths are in unix
-        # blob = bucket.blob(bucket_folder + file)
-        # filename = blob.name.split('/')[-1]
-        # local_folder = "scripts"
-        # dl_path = os.path.join(local_folder, filename)
-        # blob.download_to_filename(dl_path)
         
         with self.gcs_fs.open(path) as f:
             dfLoc = pd.read_csv(f)
@@ -114,16 +116,19 @@ class RecData:
         folder = self.cfg['data_local']['folder']
         file = self.cfg['data_local']['data_file']
         out_path = os.path.join(module, folder, file)
-        self.dfNew.to_csv(out_path, index=False)
+        self.dfNew.to_csv(out_path, index=False, encoding='UTF-8')
         print('updated file saved to ' + f'{out_path}.')
+        # return out_path
 
     def update_data_to_gcp(self):
-        # write updates to file
-        bucket = self.cfg['data_gcp']['bucket']
+        # testing: write to local then copy to gcs
+        # bucket = self.cfg['data_gcp']['bucket']  # manual bucket connection already points to bucket
         folder = self.cfg['data_gcp']['folder']
         file = self.cfg['data_gcp']['data_file']
-        out_path = bucket + '/' + folder + '/' + file  # folderpaths are in unix
-        with self.gcs_fs.open(out_path, 'w') as f:
-            self.dfNew.to_csv(f, index=False)
-            print('updated file uploaded to ' + f'{bucket}.')
+        out_path = folder + '/' + file  # 
+        self.bucket.blob(out_path).upload_from_string(
+            self.dfNew.to_csv(index=False, encoding='utf-8'),
+            content_type='application/octet-stream',
+        )
+
         
